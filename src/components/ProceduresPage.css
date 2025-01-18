@@ -1,0 +1,68 @@
+.procedures-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+  }
+  
+  /* Search Bar */
+  .search-bar input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  /* Add Procedure Form */
+  .add-procedure-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .add-procedure-form input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .add-procedure-form .add-button {
+    padding: 10px 20px;
+    background-color: #009688;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .add-button:hover {
+    background-color: #00796b;
+  }
+  
+  /* Procedures Table */
+  .procedures-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .procedures-table th,
+  .procedures-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .procedures-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .procedures-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  

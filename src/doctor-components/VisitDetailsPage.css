@@ -1,0 +1,54 @@
+/* General Styling */
+.visit-details-page .content {
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  /* Section Titles */
+  .section-title {
+    font-size: 20px;
+    color: #1BA7A4;
+    margin-bottom: 10px;
+  }
+  
+  /* Special Boxes for Personal and Visit Information */
+  .special-box {
+    border: 2px solid #FFD700; /* Golden border for primary sections */
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #FFF7E0; /* Light yellow background */
+    margin-bottom: 20px;
+  }
+  
+  /* General Info Boxes */
+  .info-box {
+    border: 2px solid #1BA7A4;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+  }
+  
+  /* Individual Items */
+  .item-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  /* PDF Button */
+  .pdf-button {
+    background-color: #1BA7A4;
+    color: #ffffff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .pdf-button:hover {
+    background-color: #138f8b;
+  }
+  

@@ -1,0 +1,97 @@
+.patients-page {
+    display: flex;
+  }
+  
+  .patients-content {
+    width: 80%;
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 19%; /* Matches the width of the sidebar */
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .search-container input {
+    padding: 10px;
+    width: 400px;
+    border: 2px solid #007b7b; /* إضافة إطار بلون أساسي */
+    border-radius: 8px; /* زوايا مستديرة */
+    font-size: 14px; /* حجم النص داخل الحقل */
+  }
+
+  .search-container input:focus {
+    outline: none;
+    box-shadow: 0 0 6px rgba(0, 123, 123, 0.5); /* إضافة تأثير عند التركيز */
+  }
+  
+  
+  
+  .search-container button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #007b7b; /* اللون الأساسي */
+  color: white;
+  border: none;
+  border-radius: 8px; /* زوايا مستديرة */
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* تأثير عند التمرير */
+}
+
+.search-container button:hover {
+  background-color: #005e5e; /* لون أغمق عند التمرير */
+}
+  
+  .patients-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+  }
+
+  .patients-table th {
+    background-color: #f9f9f9; /* خلفية خفيفة */
+    color: #007b7b; /* اللون الأساسي للنص */
+    font-weight: bold; /* نص عريض */
+  }
+  
+  
+  .patients-table th,
+  .patients-table td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .patients-table th {
+    background-color: #f9f9f9;
+  }
+  
+  .patients-table tr:hover {
+    background-color: rgba(0, 123, 123, 0.1); /* لون خفيف عند التمرير */
+  }
+  
+  .add-patient-button {
+    background-color: #007b7b;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-patient-button:hover {
+    background-color: #005e5e;
+  }
+  

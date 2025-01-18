@@ -1,0 +1,268 @@
+
+
+.patient-profile {
+    display: flex;
+  }
+  
+  .profile-content {
+    margin-left: 300px;
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .patient-info-box {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .patient-photo-icon {
+    font-size: 100px; /* Adjust size as needed */
+    color: #ccc; /* Gray color for the icon */
+    margin-bottom: 20px; /* Space below the icon */
+    padding-right: 20px;
+  }
+  
+  
+  .patient-info {
+    flex: 1;
+  }
+  
+  .patient-info h2 {
+    margin: 0 0 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .patient-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 10px 20px; 
+  }
+  
+  .patient-info-grid p {
+    margin: 0;
+    color: #666;
+  }
+  
+  .patient-info-grid p strong {
+    color: #333;
+  }
+  
+  .diseases-table,
+  .family-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .diseases-table th,
+  .diseases-table td,
+  .family-history-table th,
+  .family-history-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .diseases-table th,
+  .family-history-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .diseases-table tr:hover,
+  .family-history-table tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  .xrays-table,
+  .diseases-table,
+  .family-history-table,
+  .lab-tests-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .xrays-table th,
+  .xrays-table td,
+  .diseases-table th,
+  .diseases-table td,
+  .family-history-table th,
+  .family-history-table td,
+  .lab-tests-table th,
+  .lab-tests-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .xrays-table th,
+  .diseases-table th,
+  .family-history-table th,
+  .lab-tests-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .xrays-table tr:hover,
+  .diseases-table tr:hover,
+  .family-history-table tr:hover,
+  .lab-tests-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .view-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .view-button:hover {
+    background-color: #0056b3;
+  }
+
+  .profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .create-visit-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .create-visit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .create-visit-button:active {
+    background-color: #003f87;
+  }
+
+ /* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Container */
+.modal {
+  position: relative;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  max-height: 90vh; /* Ensure pop-up height is less than the screen height */
+  overflow-y: auto; /* Add scroll if content overflows */
+  width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Title in the Top-Left */
+.modal-header {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Details Section in the Middle */
+.modal-info-box {
+  width: 100%;
+  margin: 60px 0 20px; /* Adjusted margin for spacing below the title */
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  right: 30px;
+  left: 30px;
+}
+
+.modal-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.modal-row strong {
+  font-weight: bold;
+}
+
+.modal-row span {
+  text-align: right;
+}
+
+/* Smaller Image Box */
+.xray-image-box {
+  width: 80%; /* Set width to be smaller than the modal */
+  margin: 20px auto; /* Center the box */
+  padding: 30px;
+  background: #f4f4f4;
+  border: 1px dashed #ccc;
+  border-radius: 10px;
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+}
+
+/* Close Button in the Bottom-Right */
+.close-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.close-button:hover {
+  background: #0056b3;
+}
+
+
+  
+  
+  
+  
+  
+  

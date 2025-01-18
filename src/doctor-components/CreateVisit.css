@@ -1,0 +1,168 @@
+/* General Page Layout */
+.create-visit-page {
+  display: flex;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+
+.create-visit-content {
+  margin-left: 300px;
+  flex: 1;
+  padding: 20px;
+  background-color: #f8f9fa;
+  box-sizing: border-box;
+}
+
+/* Section Headers */
+.create-visit-content h2,
+.create-visit-content h3 {
+  margin-bottom: 15px;
+  color: #343a40;
+  font-weight: bold;
+}
+
+.create-visit-content h3 {
+  font-size: 18px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+  margin-top: 20px;
+}
+
+/* Form Styling */
+.visit-form,
+.dropdown-section {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.visit-form form label,
+.dropdown-section label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #495057;
+}
+
+.visit-form form input,
+.dropdown-section input {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.visit-form form input:focus,
+.dropdown-section input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Small Form Cards for Multiple Entries */
+.form-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.form-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Buttons */
+.section-button {
+  padding: 8px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.section-button:hover {
+  background-color: #218838;
+}
+
+.save-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
+
+.remove-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 5px;
+}
+
+.remove-button:hover {
+  background-color: #c82333;
+}
+
+/* Dropdown Styling */
+.dropdown-section h3 {
+  cursor: pointer;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+}
+
+.dropdown-section h3:hover {
+  background-color: #e9ecef;
+}
+
+/* Confirmation Popup */
+.confirmation-popup {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #28a745;
+  background-color: #d4edda;
+  border-radius: 5px;
+  color: #155724;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .create-visit-content {
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  .visit-form form input,
+  .dropdown-section input {
+    font-size: 12px;
+  }
+}

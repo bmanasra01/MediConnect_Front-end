@@ -1,0 +1,189 @@
+/* Basic Layout */
+.login-page {
+    display: flex;
+    height: 80vh;
+    padding: 80px 40px 80px 40px; /* top, right, bottom, left */
+
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Left Section */
+  .login-left {
+    border-radius: 25px;;
+    flex: 1;
+    position: relative;
+    background-color: #e7f2f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .login-image {
+    border-radius: 25px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .image-text {
+    position: absolute;
+    color: white;
+    bottom: 30px;
+    left: 30px;
+  }
+  
+  .image-text h1 {
+    font-size: 2em;
+    font-weight: bold;
+  }
+  
+  .image-text p {
+    font-size: 1.2em;
+  }
+  
+  /* Right Section */
+  .login-right {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+  }
+  
+  .logo {
+    width: 150px;
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    font-size: 1.5em;
+    color:  #1BA7A4;
+    ;
+  }
+  
+  .subtext {
+    font-size: 0.9em;
+    color: #666;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 0 20px;
+  }
+  
+  .form-group {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    font-size: 0.9em;
+    color: #555;
+  }
+  
+  .form-group .input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #1BA7A4;
+    border-radius: 35px;
+  }
+  
+  /* .form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .remember-me {
+    display: flex;
+    align-items: center;
+    gap: 5px; 
+  } */
+
+  .form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+}
+
+/* Remember Me */
+.remember-me {
+  display: inline-flex; /* ترتيب العناصر أفقيًا */
+  align-items: center; /* محاذاة العناصر عموديًا في المنتصف */
+  gap: 5px; /* إضافة مسافة بين مربع الاختيار والنص */
+  white-space: nowrap; /* يمنع النص من الانتقال إلى سطر جديد */
+}
+
+.remember-me input[type="checkbox"] {
+  position: relative; /* يسمح بتعديل موضع العنصر */
+  top: -2px; /* تعديل موضع مربع الاختيار للأعلى أو الأسفل */
+  margin: 0; /* إزالة الهوامش الافتراضية */
+}
+
+.remember-me label {
+  position: relative;
+  top: 1px; 
+  font-size: 1em; 
+  white-space: nowrap; 
+}
+
+.error-message {
+  color: red; /* لون الرسالة */
+  font-size: 0.9em; /* حجم الخط */
+  margin-bottom: 15px; /* مسافة أسفل الرسالة */
+  text-align: center; /* توسيط الرسالة */
+}
+
+
+  
+  .form-footer label {
+    font-size: 0.9em;
+    color: #555;
+  }
+  
+  /* .form-footer a {
+    font-size: 0.9em;
+    color: #1BA7A4;
+    text-decoration: none;
+  } */
+  
+  .form-footer a {
+    font-size: 0.9em;
+    color: #1BA7A4;
+    text-decoration: none;
+    margin-top: 5px; /* Spacing for better alignment when wrapped */
+}
+
+@media (max-width: 768px) {
+  .form-footer {
+      flex-direction: column; /* Stacks the content vertically */
+      align-items: flex-start;
+  }
+
+  .form-footer a {
+      margin-top: 10px; /* Adds space between elements */
+  }
+}
+  
+  .login-button {
+
+    width: 100%;
+    padding: 10px;
+    background-color: #1BA7A4;
+    color: white;
+    border: none;
+    border-radius: 35px;
+    cursor: pointer;
+    font-size: 1em;
+  }
+  
+  .login-button:hover {
+    background-color: #1BA7A4;
+  }
+  

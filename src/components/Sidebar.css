@@ -1,0 +1,109 @@
+/* Sidebar container */
+.sidebar {
+  width: 20%;
+  height: 100vh;
+  background-color: #f5fafa;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  position: fixed;
+  overflow-y: auto; /* Enables vertical scrolling */
+  scrollbar-width: thin; /* Makes the scrollbar less intrusive */
+  scrollbar-color: #d6d6d6 #f5fafa; /* Custom scrollbar colors */
+}
+
+/* Style the scrollbar for modern browsers */
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #d6d6d6;
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background-color: #f5fafa;
+}
+
+/* Logo styling */
+.sidebar-logo img {
+  width: 120px;
+  margin-bottom: 20px;
+}
+
+/* Top menu styling */
+.sidebar-menu {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar-menu-top {
+  flex-grow: 1;
+}
+
+/* Sidebar item styling */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-size: 1rem;
+  color: #7a7a7a;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* Remove underline from links */
+.sidebar-item a {
+  text-decoration: none; /* Removes the underline */
+  display: flex; /* Ensures the icon and text align correctly */
+  align-items: center; /* Vertically center content */
+  color: inherit; /* Inherits the color from the parent */
+  width: 100%; /* Makes the link span the full width */
+}
+
+/* Active item styling */
+.sidebar-item.active {
+  background-color: #e0f7f8;
+  color: #00a8a8;
+}
+
+/* Hover effect */
+.sidebar-item:hover {
+  background-color: #e0f7f8;
+  color: #00a8a8;
+}
+
+.sidebar-icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+/* Bottom menu styling */
+.sidebar-menu-bottom {
+  margin-bottom: 10px;
+}
+
+/* Profile section styling */
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+}
+
+.profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.profile-info span {
+  display: block;
+}
+
+.profile-role {
+  font-size: 0.8rem;
+  color: #a9a9a9;
+}

@@ -1,0 +1,106 @@
+.doctor-visits-page {
+  display: flex;
+  font-family: Arial, sans-serif;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  margin-left: 19%;
+  background-color: #ffffff;
+}
+
+.visits-header {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #007b7b;
+}
+
+.visits-header-section {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.visits-total-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #ffffff;
+  border: 2px solid #007b7b;
+  border-radius: 10px;
+  padding: 10px 15px;
+  width: 180px;
+  height: 40px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.total-icon {
+  font-size: 20px;
+  color: #007b7b;
+}
+
+.visits-total-box h3 {
+  font-size: 15px;
+  margin: 0;
+  color: #007b7b;
+}
+
+.visits-total-box p {
+  font-size: 15px;
+  font-weight: bold;
+  color: #007b7b;
+  margin: 0;
+}
+
+.visits-search-section {
+  margin-bottom: 20px;
+}
+
+.visits-search {
+  width: 100%;
+  max-width: 500px;
+  padding: 10px;
+  border: 2px solid #007b7b;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.visits-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.visits-month-filter,
+.visits-year-filter {
+  width: 120px;
+  padding: 5px;
+  font-size: 14px;
+  border: 2px solid #007b7b;
+  border-radius: 5px;
+}
+
+.visits-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.visits-table th {
+  background-color: #f9f9f9;
+  color: #007b7b;
+  font-weight: bold;
+}
+
+.visits-table th,
+.visits-table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.visits-table tr:hover {
+  background-color: rgba(0, 123, 123, 0.1);
+  cursor: pointer;
+}
