@@ -1,6 +1,8 @@
 // App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+
 import AdminDashboard from './components/AdminDashboard';
 import DoctorsPage from './components/DoctorsPage';
 import LoginPage from './components/loginpage';
@@ -25,8 +27,23 @@ import VisitDetailsPage from "./doctor-components/VisitDetailsPage";
 
 
 
+import ScheduleSettingsPage from './doctor-components/ScheduleSettingsPage';
+import BookAppointment from "./doctor-components/BookAppointment";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
+
+
+
 function App() {
   return (
+
+    <>
+
+   <ToastContainer />
+
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
@@ -124,10 +141,27 @@ function App() {
             }/>
 
 
+            <Route path="/bappointments" element={
+                <ProtectedRoute>
+                  <BookAppointment />
+                </ProtectedRoute>
+              }
+            />
+
+
+
+
+
           <Route path="/patient-profile/:patientId" element={<PatientProfile />} />
 
           <Route path="/" element={<DoctorVisitsPage />} />
           <Route path="/visit/:visitID" element={<VisitDetailsPage />} />
+
+          <Route path="/settings/schedule" element={
+            <ProtectedRoute>
+              <ScheduleSettingsPage />
+            </ProtectedRoute>
+          } />
 
 
 
@@ -135,6 +169,9 @@ function App() {
 
       </Routes>
     </Router>
+
+    </>
+
   );
 }
 

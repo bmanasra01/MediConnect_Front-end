@@ -1,217 +1,313 @@
 .doctor-dashboard {
-    display: flex;
-    min-height: 100vh;
-    background-color: #f5fafa;
-  }
-  .dashboard-content {
-    margin-left: 20%; /* Same as the sidebar width */
-    width: 80%; /* Take the rest of the width */
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  .dashboard-content h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  
-  .dashboard-widgets {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  
-  .widget {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    min-width: 200px;
-    text-align: center;
-  }
-  
-  .widget h3 {
-    margin: 0 0 10px;
-    font-size: 1.2rem;
-  }
-  
-  .widget p {
-    font-size: 1rem;
-    color: #555;
-  }
-  
-
-  
-  /* Appointments Table */
-  .appointment-table {
-    margin-top: 20px;
-  }
-  
-  .appointment-table table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .appointment-table th,
-  .appointment-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-  }
-  
-  .appointment-table th {
-    background-color: #f4f4f4;
-  }
-  
-  .appointment-table .cancel-button,
-  .appointment-table .view-button {
-    padding: 5px 10px;
-    margin-right: 5px;
-    border: none;
-    cursor: pointer;
-    border-radius: 3px;
-  }
-  
-  .appointment-table .cancel-button {
-    background-color: #f44336;
-    color: white;
-  }
-  
-  .appointment-table .view-button {
-    background-color: #007b7b;
-    color: white;
-  }
-  
-  .appointment-table .state-label {
-    padding: 5px 10px;
-    border-radius: 3px;
-    text-transform: uppercase;
-  }
-  
-  .appointment-table .state-label.PENDING {
-    background-color: #ffc107;
-    color: black;
-  }
-  
-  .appointment-table .state-label.CANCELED {
-    background-color: #f44336;
-    color: white;
-  }
-
-
-  /* Status Labels */
-.state-label {
-  padding: 5px 10px;
-  border-radius: 3px;
-  text-transform: uppercase;
-  font-size: 12px;
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5fafa;
+}
+.dashboard-content {
+  margin-left: 20%; /* Same as the sidebar width */
+  width: 80%; /* Take the rest of the width */
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-.state-label.PENDING {
-  background-color: #ffc107;
-  color: black;
+.dashboard-content h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
 }
 
-.state-label.DONE {
-  background-color: #007b7b;
+/* Compact Welcome Message */
+.welcome-container {
+  background: linear-gradient(135deg, #4e73df, #1cc88a);
   color: white;
+  padding: 10px 20px; /* Reduced padding */
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50px; /* Reduced height */
 }
 
-.state-label.CANCELED {
-  background-color: #f44336;
-  color: white;
+.welcome-text {
+  font-size: 22px; /* Adjusted size */
+  font-weight: bold;
+  margin: 0;
 }
 
-/* Action Buttons */
-.cancel-button,
-.view-button {
+.doctor-name {
+  font-weight: bold;
+  color: #f8f9fc;
+}
+
+
+.specialization-text {
+  font-size: 16px;
+  margin-top: 5px;
+  opacity: 0.9;
+}
+
+
+/* Widgets Section */
+.dashboard-widgets {
+display: flex;
+gap: 20px;
+flex-wrap: wrap;
+justify-content: space-around;
+margin-top: 20px;
+}
+
+.widget {
+background: #fff;
+padding: 20px;
+border-radius: 12px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+flex: 1;
+min-width: 250px;
+text-align: center;
+position: relative;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.widget:hover {
+transform: translateY(-5px);
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.widget h3 {
+margin-top: 10px;
+font-size: 1.3rem;
+font-weight: bold;
+}
+
+.widget p {
+font-size: 1rem;
+color: #555;
+margin-top: 5px;
+}
+
+/* Widget Icons */
+.widget-icon {
+font-size: 40px;
+margin-bottom: 10px;
+display: block;
+}
+
+/* Unique Colors for Each Icon */
+.appointments-icon {
+color: #007b7b;
+}
+
+.patients-icon {
+color: #ff9800;
+}
+
+.schedules-icon {
+color: #2196f3;
+}
+
+/* Appointments Table */
+.appointment-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: f5fafa;
+}
+
+.appointment-table table {
+  width: 100%;
+  border-collapse: collapse; /* ✅ Removes box styling */
+  background-color: white;
+}
+
+/* Table Header */
+.appointment-table th {
+  background-color: #f9f9f9;
+  color: #007b7b;
+  font-weight: bold;
+  cursor: pointer; /* ✅ Added cursor effect */
+}
+
+.appointment-table th,
+.appointment-table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.appointment-table th {
+  background-color: #f4f4f4;
+}
+
+.appointment-table .cancel-button,
+.appointment-table .view-button {
   padding: 5px 10px;
   margin-right: 5px;
   border: none;
   cursor: pointer;
   border-radius: 3px;
-  font-size: 14px;
+}
+.appointment-table tr {
+  transition: background-color 0.3s ease-in-out; /* ✅ Added smooth transition */
 }
 
-.cancel-button {
+.appointment-table tr:hover {
+  background-color: rgba(0, 123, 123, 0.1); /* ✅ Matched hover effect */
+}
+
+
+.appointment-table .cancel-button {
   background-color: #f44336;
   color: white;
 }
 
-.view-button {
+.appointment-table .view-button {
   background-color: #007b7b;
   color: white;
 }
 
+.appointment-table .state-label {
+  padding: 5px 10px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.appointment-table .state-label.PENDING {
+  background-color: #ffc107;
+  color: black;
+}
+
+.appointment-table .state-label.CANCELED {
+  background-color: #f44336;
+  color: white;
+}
+
+
+/* Status Labels */
+.state-label {
+padding: 5px 10px;
+border-radius: 3px;
+text-transform: uppercase;
+font-size: 12px;
+}
+
+.state-label.PENDING {
+background-color: #ffc107;
+color: black;
+}
+
+.state-label.DONE {
+background-color: #007b7b;
+color: white;
+}
+
+.state-label.CANCELED {
+background-color: #f44336;
+color: white;
+}
+
+/* Action Buttons */
+.cancel-button,
+.view-button {
+padding: 8px 15px;
+margin-right: 5px;
+border: none;
+cursor: pointer;
+border-radius: 6px;
+font-size: 14px;
+font-weight: bold;
+transition: background-color 0.3s ease;
+}
+
+.cancel-button {
+background-color: #f44336;
+color: white;
+}
+
+.cancel-button:hover {
+background-color: #d32f2f;
+}
+
+.view-button {
+background-color: #007b7b;
+color: white;
+}
+
+.view-button:hover {
+background-color: #005e5e;
+}
+
 /* Modal Overlay */
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.5);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 1000;
 }
 
 /* Modal Container */
 .modal {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  text-align: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+background: white;
+padding: 20px;
+border-radius: 8px;
+width: 400px;
+text-align: center;
+box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Modal Title */
 .modal h2 {
-  margin-bottom: 10px;
-  color: #333;
+margin-bottom: 10px;
+color: #333;
 }
 
 /* Modal Content */
 .modal p {
-  margin-bottom: 20px;
-  color: #555;
+margin-bottom: 20px;
+color: #555;
 }
 
 /* Modal Buttons */
 .modal-actions {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+display: flex;
+justify-content: center;
+gap: 10px;
 }
 
 .confirm-button {
-  background-color: #d9534f;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  cursor: pointer;
-  border-radius: 4px;
+background-color: #d9534f;
+color: white;
+border: none;
+padding: 8px 16px;
+cursor: pointer;
+border-radius: 4px;
 }
 
 .confirm-button:hover {
-  background-color: #c9302c;
+background-color: #c9302c;
 }
 
 .cancel-button {
-  background-color: #5bc0de;
-  color: white;
-  border: none;
-  padding: 8px 16px; 
-  cursor: pointer;
-  border-radius: 4px;
+background-color: #5bc0de;
+color: white;
+border: none;
+padding: 8px 16px; 
+cursor: pointer;
+border-radius: 4px;
 }
 
 .cancel-button:hover {
-  background-color: #31b0d5;
+background-color: #31b0d5;
 }
 
-
-  
+.view-button:disabled {
+background-color: #ccc;
+cursor: not-allowed;
+opacity: 0.6;
+}

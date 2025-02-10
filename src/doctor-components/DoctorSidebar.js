@@ -40,12 +40,13 @@ const DoctorSidebar = () => {
             <span>Add Visit</span>
           </Link>
         </li>
-        <li className={`sidebar-item ${location.pathname === '/schedule' ? 'active' : ''}`}>
-          <Link to="/schedule">
-            <FaClock className="sidebar-icon" />
-            <span>Schedule</span>
-          </Link>
-        </li>
+              <li className={`sidebar-item ${location.pathname === '/bappointments' ? 'active' : ''}`}>
+        <Link to="/bappointments">
+          <FaClock className="sidebar-icon" />
+          <span>Book Appointment</span>
+        </Link>
+      </li>
+
         <li className={`sidebar-item ${location.pathname === '/documents' ? 'active' : ''}`}>
           <Link to="/documents">
             <FaFileAlt className="sidebar-icon" />
@@ -84,12 +85,22 @@ const DoctorSidebar = () => {
             <span>Notification</span>
           </Link>
         </li>
-        <li className={`sidebar-item ${location.pathname === '/settings' ? 'active' : ''}`}>
+        {/* <li className={`sidebar-item ${location.pathname === '/settings' ? 'active' : ''}`}>
           <Link to="/settings">
             <FaCog className="sidebar-icon" />
             <span>Settings</span>
           </Link>
+        </li> */}
+
+        <li className={`sidebar-item ${location.pathname === '/settings/schedule' ? 'active' : ''}`}>
+          <Link to="/settings/schedule">
+            <FaCog className="sidebar-icon" />
+            <span>Schedule Settings</span>
+          </Link>
         </li>
+
+
+
 
         <li className="sidebar-item">
         <Link to="/">

@@ -4,15 +4,34 @@ import Sidebar from "./DoctorSidebar";
 import axios from "./axiosConfig";
 import "./DoctorDashboard.css";
 
+// Import FontAwesome Icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarCheck, faUsers, faClock } from "@fortawesome/free-solid-svg-icons";
+
 const DoctorDashboard = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [totalPatients, setTotalPatients] = useState(0);
+
 
   const navigate = useNavigate();
 
+  const [doctorName, setDoctorName] = useState("");
+
+
   useEffect(() => {
+
+    axios
+    .get("/doctors/auth/me")
+    .then((response) => {
+      setDoctorName(`${response.data.user.firstName} ${response.data.user.lastName}`);
+    })
+    .catch((error) => {
+      console.error("Error fetching doctor details:", error);
+    });
+
     // Fetch today's appointments
     axios
       .get("/appointments/doctor/today?page=1&size=100")
@@ -24,7 +43,24 @@ const DoctorDashboard = () => {
         console.error("Error fetching appointments:", error);
         setLoading(false);
       });
+
+      // Fetch total patients
+    axios
+    .get("/doctors/patients?page=1&size=1000")
+    .then((response) => {
+      setTotalPatients(response.data.totalElements); // Total count from API
+    })
+    .catch((error) => {
+      console.error("Error fetching total patients:", error);
+    })
+    .finally(() => setLoading(false));
+
+
+
   }, []);
+
+  const upcomingSchedules = appointments.filter(app => !app.isDone && !app.isCancelled).length;
+
 
   // Open confirmation modal
   const openCancelModal = (appointment) => {
@@ -65,22 +101,30 @@ const DoctorDashboard = () => {
       <Sidebar />
 
       <div className="dashboard-content">
-        <h1>Welcome, Doctor</h1>
-
+      <div className="welcome-container">
+        <h1 className="welcome-text">
+          Welcome, <span className="doctor-name">Dr. {doctorName}</span> 
+        </h1>
+      </div>
 
         {/* Widgets Section */}
         <div className="dashboard-widgets">
-          <div className="widget">
+        <div className="widget">
+            <FontAwesomeIcon icon={faCalendarCheck} className="widget-icon appointments-icon" />
             <h3>Today's Appointments</h3>
             <p>{appointments.length} Appointments</p>
           </div>
+          {/* Total Patients */}
           <div className="widget">
+            <FontAwesomeIcon icon={faUsers} className="widget-icon patients-icon" />
             <h3>Total Patients</h3>
-            <p>150 Total</p> {/* Update dynamically if required */}
+            <p>{totalPatients} Total</p>
           </div>
-          <div className="widget">
+           {/* Upcoming Schedules */}
+           <div className="widget">
+            <FontAwesomeIcon icon={faClock} className="widget-icon schedules-icon" />
             <h3>Upcoming Schedules</h3>
-            <p>3 Scheduled</p> {/* Update dynamically if required */}
+            <p>{upcomingSchedules} Scheduled</p>
           </div>
         </div>
 
@@ -120,26 +164,30 @@ const DoctorDashboard = () => {
                     )}
                   </td>
                   <td>
-                    {/* Show Cancel button only for pending appointments */}
-                    {!appointment.isDone && !appointment.isCancelled && (
-                      <button
-                        className="cancel-button"
-                        onClick={() => openCancelModal(appointment)}
-                      >
-                        Cancel
-                      </button>
-                    )}
+                      {/* Show Cancel button only for pending appointments */}
+                      {!appointment.isDone && !appointment.isCancelled && (
+                        <button
+                          className="cancel-button"
+                          onClick={() => openCancelModal(appointment)}
+                        >
+                          Cancel
+                        </button>
+                      )}
 
-                    {/* Always show the View button */}
-                    <button
-                      className="view-button"
-                      onClick={() =>
-                        navigate(`/patient-profile/${appointment.patient.patientId}`)
-                      }
-                    >
-                      View
-                    </button>
-                  </td>
+                      {/* Disable View button if appointment is done or cancelled */}
+                      <button
+                        className="view-button"
+                        onClick={() =>
+                          navigate(`/create-visit/${appointment.patient.patientId}`, {
+                            state: { appointmentID: appointment.appointmentID },
+                          })
+                        }
+                        disabled={appointment.isDone || appointment.isCancelled} // ✅ Disable button
+                      >
+                        View
+                      </button>
+                    </td>
+
 
                 </tr>
               ))}
