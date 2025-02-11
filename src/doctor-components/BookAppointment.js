@@ -1,10 +1,12 @@
 
 import React, { useState, useEffect } from "react";
-import axios from "./axiosConfig"; // Axios configuration with token
+import axios from "./axiosConfig"; 
 import DoctorSidebar from "./DoctorSidebar";
 import "./BookAppointment.css";
-
+import "./tables.css";
 import { toast } from "react-toastify";
+import { FaUserCircle } from "react-icons/fa"; 
+
 
 const BookAppointment = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -120,79 +122,62 @@ const BookAppointment = () => {
       <div className="content">
         <h2>Book Appointment</h2>
 
-        {/* Search and Patient Info */}
-        <div className="search-section">
-          <input
-            type="text"
-            placeholder="Search patient by ID, phone, or name..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyUp={fetchPatients}
-          />
-          {patients.length > 0 && (
-            <ul className="patient-list">
-              {patients.map((patient) => (
-                <li
-                  key={patient.patientId}
-                  className={`patient-item ${
-                    selectedPatient?.patientId === patient.patientId
-                      ? "selected"
-                      : ""
-                  }`}
-                  onClick={() => setSelectedPatient(patient)}
-                >
-                  {patient.user.firstName} {patient.user.lastName} -{" "}
-                  {patient.patientId}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <div className="search-bar-container">
+        <input
+          type="text"
+          placeholder="Search patient by ID, phone, or name..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyUp={fetchPatients}
+          className="input"
+        />
+      </div>
+
+      {patients.length > 0 && (
+        <ul className="patient-list">
+          {patients.map((patient) => (
+            <li
+              key={patient.patientId}
+              className={`patient-item ${selectedPatient?.patientId === patient.patientId ? "selected" : ""}`}
+              onClick={() => {
+                setSelectedPatient(patient);
+                setPatients([]); // إخفاء القائمة بعد الاختيار
+              }}
+            >
+              {patient.user.firstName} {patient.user.lastName} - {patient.patientId}
+            </li>
+          ))}
+        </ul>
+      )}
+
 
         {selectedPatient && (
-          <div className="patient-info-box">
-            <div className="patient-info">
-              <h2>
-                {selectedPatient.user.firstName} {selectedPatient.user.lastName}
-              </h2>
-              <div className="patient-info-grid">
-                <p>
-                  <strong>Patient ID:</strong> {selectedPatient.patientId}
-                </p>
-                <p>
-                  <strong>Email:</strong> {selectedPatient.user.email}
-                </p>
-                <p>
-                  <strong>Phone:</strong> {selectedPatient.user.phone}
-                </p>
-                <p>
-                  <strong>Gender:</strong> {selectedPatient.gender}
-                </p>
-                <p>
-                  <strong>Blood Type:</strong> {selectedPatient.bloodType}
-                </p>
-                <p>
-                  <strong>Height:</strong> {selectedPatient.height} cm
-                </p>
-                <p>
-                  <strong>Weight:</strong> {selectedPatient.weight} kg
-                </p>
-              </div>
-            </div>
-          </div>
+           <div className="patient-info-container">
+           <FaUserCircle className="patient-photo-icon-lg" />
+           <div className="patient-info-content">
+             <h2>{selectedPatient.user.firstName} {selectedPatient.user.lastName}</h2>
+             <div className="patient-info-grid-unique">
+               <p><strong>Patient ID:</strong> {selectedPatient.patientId}</p>
+               <p><strong>Email:</strong> {selectedPatient.user.email}</p>
+               <p><strong>Phone:</strong> {selectedPatient.user.phone}</p>
+               <p><strong>Gender:</strong> {selectedPatient.gender}</p>
+               <p><strong>Blood Type:</strong> {selectedPatient.bloodType}</p>
+               <p><strong>Height:</strong> {selectedPatient.height} cm</p>
+               <p><strong>Weight:</strong> {selectedPatient.weight} kg</p>
+             </div>
+           </div>
+         </div>
         )}
 
         {/* Date Selection */}
         <div className="date-selection">
-          <h3>Date</h3>
+          
           <div className="dates-container">
             {dates.map((date) => (
               <button
                 key={date}
                 className={`date-button ${
-                  selectedDate === date.toISOString().split("T")[0]
-                    ? "selected"
-                    : ""
+                  selectedDate === date.toISOString().split("T")[0] ? "selected" : ""
                 }`}
                 onClick={() => setSelectedDate(date.toISOString().split("T")[0])}
               >
@@ -201,20 +186,21 @@ const BookAppointment = () => {
             ))}
           </div>
           <div className="custom-date">
-          <label><strong>Select Another Date:</strong></label>
-          <input 
-            type="date" 
-            className="date-picker" 
-            value={selectedDate} 
-            onChange={(e) => setSelectedDate(e.target.value)}
-          />
+            <label>Select Another Date:</label>
+            <input
+              type="date"
+              className="date-picker"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+            />
           </div>
         </div>
 
+
         {/* Appointment Table */}
-        <div className="appointment-table">
+        <div className="table-container">
           <h3>Appointments</h3>
-          <table>
+          <table className="common-table">
             <thead>
               <tr>
                 <th>Time Slot</th>
@@ -232,7 +218,7 @@ const BookAppointment = () => {
                     <td>{status?.replace(")", "")}</td>
                     <td>
                       <button
-                        className={`book-button ${
+                        className={`book-button action-button ${
                           isReserved ? "reserved" : ""
                         }`}
                         disabled={isReserved || !selectedPatient}

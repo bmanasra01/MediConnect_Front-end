@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "./DoctorSidebar";
 import axios from "./axiosConfig";
 import "./DoctorVisitsPage.css";
+import "./tables.css";
 import { useNavigate } from "react-router-dom";
 import { FaClipboardList } from "react-icons/fa";
 
@@ -106,13 +107,12 @@ const DoctorVisitsPage = () => {
           </div>
         </div>
 
-
-
         {/* Visits Table */}
         {loading ? (
           <p>Loading visits...</p>
         ) : (
-          <table className="visits-table">
+          <div className="table-container">
+          <table className="common-table">
             <thead>
               <tr>
                 <th>Visit ID</th>
@@ -125,11 +125,7 @@ const DoctorVisitsPage = () => {
             <tbody>
               {visits.length > 0 ? (
                 visits.map((visit) => (
-                  <tr
-                    key={visit.visitID}
-                    onClick={() => handleRowClick(visit.visitID)}
-                    className="visit-row"
-                  >
+                  <tr key={visit.visitID} onClick={() => handleRowClick(visit.visitID)}>
                     <td>{visit.visitID}</td>
                     <td>{visit.visitDate}</td>
                     <td>{visit.visitTime}</td>
@@ -146,6 +142,7 @@ const DoctorVisitsPage = () => {
               )}
             </tbody>
           </table>
+        </div>
         )}
       </div>
     </div>

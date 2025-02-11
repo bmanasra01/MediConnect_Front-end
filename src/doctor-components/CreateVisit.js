@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import axios from "./axiosConfig"; // ✅ Import axiosConfig.js
+import axios from "./axiosConfig"; 
 import DoctorSidebar from "./DoctorSidebar";
 import "./CreateVisit.css";
 import { FaUserCircle } from "react-icons/fa";
@@ -42,6 +42,7 @@ const CreateVisit = () => {
     medicalLeaveDays: "",
   });
 
+  //ceck if there appointment 
   useEffect(() => {
     if (!appointmentID) {
       alert("No appointment ID provided! Unable to create a visit.");
@@ -49,6 +50,7 @@ const CreateVisit = () => {
       navigate("/doctor-dashboard");
     }
   }, [appointmentID, navigate]);
+
 
   useEffect(() => {
     const fetchPatientDetails = async () => {
@@ -271,10 +273,6 @@ const CreateVisit = () => {
   };
   
   
-  
-  
-  
-
   // Add New Prescription
   const addPrescription = () => {
     setShowPrescriptionSection(true);
@@ -441,10 +439,7 @@ const CreateVisit = () => {
         }
       }
       
-      
-      
-      
-  
+
       // Success message if everything is saved
       alert("Visit and all related data saved successfully!");
       navigate("/doctor-dashboard");
@@ -465,13 +460,23 @@ const CreateVisit = () => {
 
         {loading ? <p>Loading patient details...</p> : (
           <>
-            <div className="patient-info-box">
-              <FaUserCircle className="patient-photo-icon" />
-              <div className="patient-info">
-                <h2>{patient.user.firstName} {patient.user.lastName}</h2>
-                <p><strong>Patient ID:</strong> {patient.patientId}</p>
-              </div>
-            </div>
+             {/* Patient Personal Information Header */}
+                    <div className="patient-info-container">
+                      <FaUserCircle className="patient-photo-icon-lg" />
+                      <div className="patient-info-content">
+                        <h2>{patient?.user?.firstName || "N/A"} {patient?.user?.lastName || ""}</h2>
+                        <div className="patient-info-grid-unique">
+                          <p><strong>Patient ID:</strong> {patient?.patientId || "N/A"}</p>
+                          <p><strong>Email:</strong> {patient?.user?.email || "N/A"}</p>
+                          <p><strong>Phone:</strong> {patient?.user?.phone || "N/A"}</p>
+                          <p><strong>Date of Birth:</strong> {patient?.user?.dateOfBirth || "N/A"}</p>
+                          <p><strong>Gender:</strong> {patient?.gender || "N/A"}</p>
+                          <p><strong>Blood Type:</strong> {patient?.bloodType || "N/A"}</p>
+                          <p><strong>Height:</strong> {patient?.height || "N/A"} cm</p>
+                          <p><strong>Weight:</strong> {patient?.weight || "N/A"} kg</p>
+                        </div>
+                      </div>
+                    </div>
 
             <div className="visit-form">
               <h3>Visit Information</h3>

@@ -1,0 +1,99 @@
+/* Search Bar - Unified Style */
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* تباعد بين الحقول */
+    margin-bottom: 20px;
+  }
+  
+  .search-bar-container .input {
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid #007b7b;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+  }
+  
+  .search-bar-container .input:focus {
+    outline: none;
+    box-shadow: 0 0 6px rgba(0, 123, 123, 0.5);
+  }
+
+  /* جعل حقل البحث أكبر من حقل التاريخ */
+.search-bar-container input[type="text"] {
+    flex: 3; /* يأخذ 3 أضعاف مساحة التاريخ */
+  }
+  
+  .search-bar-container input[type="date"] {
+    flex: 1; /* يأخذ مساحة أصغر */
+    text-align: center;
+  }
+  
+  .search-bar-container button {
+    padding: 10px 15px;
+    background-color: #007b7b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-bar-container button:hover {
+    background-color: #005e5e;
+  }
+  
+  .patient-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 5px;
+    width: 50%;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+  
+  .patient-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+  }
+  
+  .patient-item:hover {
+    background-color: #e0f7f7;
+  }
+  
+  .patient-item.selected {
+    background-color: #007b7b;
+    color: white;
+  }
+  
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .search-bar-container {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .search-bar-container input {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .search-bar-container button {
+      width: 100%;
+    }
+  
+    .patient-list {
+      width: 100%;
+    }
+  }
+
+  
+  
+  

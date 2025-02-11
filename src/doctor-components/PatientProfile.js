@@ -4,6 +4,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "./axiosConfig"; 
 import DoctorSidebar from "./DoctorSidebar"; 
 import "./PatientProfile.css";
+import "./Info-box.css";
+
 import { FaUserCircle } from "react-icons/fa"; 
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
@@ -63,18 +65,20 @@ const PatientProfile = () => {
 
 
 
-useEffect(() => {
-  const fetchPrescriptions = async () => {
-    try {
-      const response = await axios.get(`/prescriptions/patient/${patientId}`);
-      setPrescriptions(response.data); // حفظ قائمة الأدوية
-    } catch (error) {
-      console.error("Error fetching prescriptions:", error);
-    }
-  };
-
-  fetchPrescriptions();
-}, [patientId]);
+  useEffect(() => {
+    const fetchPrescriptions = async () => {
+      try {
+        const response = await axios.get(`/prescriptions/patient/${patientId}`);
+        setPrescriptions(Array.isArray(response.data) ? response.data : []); // ✅ تأكد من أن prescriptions هو Array
+      } catch (error) {
+        console.error("Error fetching prescriptions:", error);
+        setPrescriptions([]); // ✅ في حالة الخطأ، نعين مصفوفة فارغة
+      }
+    };
+  
+    fetchPrescriptions();
+  }, [patientId]);
+  
 
 const deactivatePrescription = async (prescriptionId) => {
   try {
@@ -104,10 +108,6 @@ const deactivatePrescription = async (prescriptionId) => {
         fetchDiseases();
       }
     }, [isFamilyHistoryModalOpen]);
-
-
-
-
 
 
   // Fetch diseases list when the modal opens
@@ -201,6 +201,7 @@ const deactivatePrescription = async (prescriptionId) => {
     }
   };
 
+ 
   // Add New Disease
   const handleAddDisease = async () => {
     if (!selectedDisease || !diseaseDate) {
@@ -251,8 +252,6 @@ const deactivatePrescription = async (prescriptionId) => {
       }
     };
 
-
-
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedXray(null);
@@ -275,14 +274,11 @@ const deactivatePrescription = async (prescriptionId) => {
         </div>
 
         {/* Patient Personal Information Header */}
-        <div className="patient-info-box">
-        <FaUserCircle className="patient-photo-icon" />
-
-          <div className="patient-info">
-            <h2>
-              {patient?.user?.firstName || "N/A"} {patient?.user?.lastName || ""}
-            </h2>
-            <div className="patient-info-grid">
+        <div className="patient-info-container">
+          <FaUserCircle className="patient-photo-icon-lg" />
+          <div className="patient-info-content">
+            <h2>{patient?.user?.firstName || "N/A"} {patient?.user?.lastName || ""}</h2>
+            <div className="patient-info-grid-unique">
               <p><strong>Patient ID:</strong> {patient?.patientId || "N/A"}</p>
               <p><strong>Email:</strong> {patient?.user?.email || "N/A"}</p>
               <p><strong>Phone:</strong> {patient?.user?.phone || "N/A"}</p>
@@ -294,6 +290,7 @@ const deactivatePrescription = async (prescriptionId) => {
             </div>
           </div>
         </div>
+
 
        {/* Patient Diseases Section */}
       <h1>Patient Diseases <button className="add-button" onClick={() => setIsDiseaseModalOpen(true)}>+</button></h1>
@@ -350,44 +347,44 @@ const deactivatePrescription = async (prescriptionId) => {
       {/* Family History Section */}
       <h1>Family History <button className="add-button" onClick={() => setIsFamilyHistoryModalOpen(true)}>+</button></h1>
      {/* Family History Modal */}
-{isFamilyHistoryModalOpen && (
-  <div className="popup-overlay">
-    <div className="popup-box">
-      <h2>Add Family History</h2>
+        {isFamilyHistoryModalOpen && (
+          <div className="popup-overlay">
+            <div className="popup-box">
+              <h2>Add Family History</h2>
 
-      <label><strong>Select Family Member:</strong></label>
-      <select onChange={(e) => setSelectedFamilyMember(e.target.value)}>
-        <option value="">Select a Family Member</option>
-        <option value="Father">Father</option>
-        <option value="Mother">Mother</option>
-        <option value="Brother">Brother</option>
-        <option value="Sister">Sister</option>
-        <option value="Grandfather">Grandfather</option>
-        <option value="Grandmother">Grandmother</option>
-      </select>
+              <label><strong>Select Family Member:</strong></label>
+              <select onChange={(e) => setSelectedFamilyMember(e.target.value)}>
+                <option value="">Select a Family Member</option>
+                <option value="Father">Father</option>
+                <option value="Mother">Mother</option>
+                <option value="Brother">Brother</option>
+                <option value="Sister">Sister</option>
+                <option value="Grandfather">Grandfather</option>
+                <option value="Grandmother">Grandmother</option>
+              </select>
 
-      <label><strong>Select Disease:</strong></label>
-      <select onChange={(e) => setSelectedFamilyDisease(e.target.value)}>
-        <option value="">Select a Disease</option>
-        {familyDiseaseList.map((disease, index) => (
-          <option key={index} value={disease.name}>{disease.name}</option>
-        ))}
-      </select>
+              <label><strong>Select Disease:</strong></label>
+              <select onChange={(e) => setSelectedFamilyDisease(e.target.value)}>
+                <option value="">Select a Disease</option>
+                {familyDiseaseList.map((disease, index) => (
+                  <option key={index} value={disease.name}>{disease.name}</option>
+                ))}
+              </select>
 
-      <label><strong>Diagnosis Date:</strong></label>
-      <input type="date" onChange={(e) => setDiagnosisDate(e.target.value)} />
+              <label><strong>Diagnosis Date:</strong></label>
+              <input type="date" onChange={(e) => setDiagnosisDate(e.target.value)} />
 
-      <label><strong>Remarks:</strong></label>
-      <textarea onChange={(e) => setFamilyRemarks(e.target.value)} placeholder="Optional remarks"></textarea>
+              <label><strong>Remarks:</strong></label>
+              <textarea onChange={(e) => setFamilyRemarks(e.target.value)} placeholder="Optional remarks"></textarea>
 
-      {/* زر الإضافة */}
-      <button className="add-btn" onClick={handleAddFamilyHistory}>Add</button>
+              {/* زر الإضافة */}
+              <button className="add-btn" onClick={handleAddFamilyHistory}>Add</button>
 
-      {/* زر الإلغاء */}
-      <button className="cancel-btn" onClick={() => setIsFamilyHistoryModalOpen(false)}>Cancel</button>
-    </div>
-  </div>
-)}
+              {/* زر الإلغاء */}
+              <button className="cancel-btn" onClick={() => setIsFamilyHistoryModalOpen(false)}>Cancel</button>
+            </div>
+          </div>
+        )}
 
 
       <div className="family-history-list">
@@ -407,12 +404,6 @@ const deactivatePrescription = async (prescriptionId) => {
           </button>
         )}
       </div>
-
-      
-
-    
-
-      
 
       {/* X-rays Section */}
       <h1>X-rays</h1>
@@ -456,37 +447,31 @@ const deactivatePrescription = async (prescriptionId) => {
       )}
     </div>
 
-
-
     <h1>Prescriptions</h1>
-<div className="prescriptions-list">
-  {prescriptions.length > 0 ? (
-    prescriptions.map((prescription) => (
-      <div key={prescription.prescriptionId} className="prescription-card">
-        <div className="card-content">
-          <div className="info-item"><label>Medication:</label> <span>{prescription.medication.scientificName}</span></div>
-          <div className="info-item"><label>International Name:</label> <span>{prescription.medication.internationalName}</span></div>
-          <div className="info-item"><label>Dose Type:</label> <span>{prescription.doseType}</span></div>
-          <div className="info-item"><label>Dose Amount:</label> <span>{prescription.doseAmount}</span></div>
-          <div className="info-item"><label>Start Date:</label> <span>{prescription.startDate}</span></div>
-          <div className="info-item"><label>Total Days:</label> <span>{prescription.totalDays}</span></div>
+    <div className="prescriptions-list">
+      {prescriptions.length > 0 ? (prescriptions.map((prescription) => (
+          <div key={prescription.prescriptionId} className="prescription-card">
+            <div className="card-content">
+              <div className="info-item"><label>Medication:</label> <span>{prescription.medication.scientificName}</span></div>
+              <div className="info-item"><label>International Name:</label> <span>{prescription.medication.internationalName}</span></div>
+              <div className="info-item"><label>Dose Type:</label> <span>{prescription.doseType}</span></div>
+              <div className="info-item"><label>Dose Amount:</label> <span>{prescription.doseAmount}</span></div>
+              <div className="info-item"><label>Start Date:</label> <span>{prescription.startDate}</span></div>
+              <div className="info-item"><label>Total Days:</label> <span>{prescription.totalDays}</span></div>
 
-          {/* زر Deactivate يظهر فقط إذا كان الطبيب الحالي هو الذي أضاف الدواء */}
-          {currentDoctorId === prescription.doctorId && prescription.active && (
-            <button className="deactivate-btn" onClick={() => deactivatePrescription(prescription.prescriptionId)}>
-              Deactivate
-            </button>
-          )}
-        </div>
-      </div>
-    ))
-  ) : (
-    <p>No prescriptions available.</p>
-  )}
-</div>
-
-
-
+              {/* زر Deactivate يظهر فقط إذا كان الطبيب الحالي هو الذي أضاف الدواء */}
+              {currentDoctorId === prescription.doctorId && prescription.active && (
+                <button className="deactivate-btn" onClick={() => deactivatePrescription(prescription.prescriptionId)}>
+                  Deactivate
+                </button>
+              )}
+            </div>
+          </div>
+        ))
+      ) : (
+        <p></p>
+      )}
+    </div>
 
       {(isModalOpen && (selectedXray || selectedLabTest)) && (
         <div id="pp-modal" className="pp-modal">
@@ -536,6 +521,7 @@ const deactivatePrescription = async (prescriptionId) => {
           </div>
         </div>
       )}
+
 
       </div>
     </div>

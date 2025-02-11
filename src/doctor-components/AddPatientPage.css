@@ -2,7 +2,7 @@
   display: flex;
   height: 100vh;
   background-color: #f8f9fa;
-  position: relative; /* يضمن أن المودال لا يغير الترتيب */
+  position: relative; 
 }
 
 .sidebar {
@@ -18,12 +18,9 @@
   padding: 20px;
   overflow-y: auto;
   background-color: #ffffff;
-  position: relative; /* يضمن أن التخطيط يظل كما هو */
+  position: relative; 
 }
 
-
-
-  
   h2 {
     font-size: 24px;
     font-weight: bold;
@@ -35,18 +32,17 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  background-color: #ffffff; /* خلفية بيضاء للإطار */
-  border: 2px solid #007b7b; /* إطار باستخدام اللون الأساسي */
-  border-radius: 10px; /* زوايا دائرية */
+  background-color: #ffffff; 
+  border: 2px solid #007b7b; 
+  border-radius: 10px; 
   padding-right: 50px;
   padding-left: 30px;
   padding-top: 20px;
   padding-bottom: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* ظل خفيف */
-  margin-top: 20px; /* إضافة فراغ أعلى */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  margin-top: 20px; 
 }
 
-  
   .form-row {
     display: flex;
     gap: 50px;
@@ -60,7 +56,7 @@
     display: block;
     font-size: 14px;
     font-weight: bold;
-    color: #007b7b; /* نفس اللون الأساسي */
+    color: #007b7b; 
     margin-bottom: 8px;
   }
   
@@ -71,15 +67,15 @@
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #f9f9f9; /* خلفية خفيفة */
-    transition: all 0.3s ease-in-out; /* تأثير على التفاعل */
+    background-color: #f9f9f9; 
+    transition: all 0.3s ease-in-out; 
   }
   
   input:focus,
   select:focus {
     border-color: #007b7b;
     outline: none;
-    box-shadow: 0 0 6px rgba(0, 123, 255, 0.2); /* ظل عند التركيز */
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.2); 
   }
   
   .form-actions {
@@ -89,24 +85,10 @@
     margin-top: 20px;
   }
   
-  .cancel-button {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-  }
-  
-  .cancel-button:hover {
-    background-color: #f5c6cb;
-  }
+
   
   .add-button {
-    background-color: #007b7b;
+    background-color: #daf0f0;
     color: #fff;
     padding: 10px 20px;
     font-size: 14px;
@@ -121,7 +103,6 @@
     background-color: #005e5e;
   }
 
-/* المودال نفسه */
 #unique-modal {
   position: fixed;
   top: 0;
@@ -139,34 +120,34 @@
   background-color: #ffffff;
   padding: 30px 40px;
   border-radius: 10px;
-  width: 600px; /* زيادة العرض لاستيعاب الصفوف */
+  width: 600px; 
   max-width: 90%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* الحقول داخل المودال */
+
 .unique-confirmation-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* كل صف */
+
 .confirmation-row {
   display: flex;
-  justify-content: space-between; /* توزيع الحقول بالتساوي */
+  justify-content: space-between; 
   gap: 15px;
 }
 
-/* كل عنصر داخل الصف */
+
 .confirmation-item {
-  flex: 1; /* يجعل العناصر متساوية العرض */
+  flex: 1; 
   display: flex;
   flex-direction: column;
 }
 
-/* تنسيق النصوص */
+
 .unique-confirmation-label {
   font-weight: bold;
   color: #007b7b;

@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "./DoctorSidebar";
 import axios from "./axiosConfig";
 import "./DoctorDashboard.css";
+import "./tables.css";
+import "./ModalOverlay.css";
 
-// Import FontAwesome Icons
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarCheck, faUsers, faClock } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,11 +17,8 @@ const DoctorDashboard = () => {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [totalPatients, setTotalPatients] = useState(0);
 
-
   const navigate = useNavigate();
-
   const [doctorName, setDoctorName] = useState("");
-
 
   useEffect(() => {
 
@@ -128,10 +127,11 @@ const DoctorDashboard = () => {
           </div>
         </div>
 
+
         {/* Appointments Table */}
-        <div className="appointment-table">
+        <div className="table-container">
           <h2>Today's Appointments</h2>
-          <table>
+          <table className="common-table">
             <thead>
               <tr>
                 <th>Appointment ID</th>
@@ -164,31 +164,29 @@ const DoctorDashboard = () => {
                     )}
                   </td>
                   <td>
-                      {/* Show Cancel button only for pending appointments */}
-                      {!appointment.isDone && !appointment.isCancelled && (
-                        <button
-                          className="cancel-button"
-                          onClick={() => openCancelModal(appointment)}
-                        >
-                          Cancel
-                        </button>
-                      )}
-
-                      {/* Disable View button if appointment is done or cancelled */}
+                    {/* Show Cancel button only for pending appointments */}
+                    {!appointment.isDone && !appointment.isCancelled && (
                       <button
-                        className="view-button"
-                        onClick={() =>
-                          navigate(`/create-visit/${appointment.patient.patientId}`, {
-                            state: { appointmentID: appointment.appointmentID },
-                          })
-                        }
-                        disabled={appointment.isDone || appointment.isCancelled} // ✅ Disable button
+                        className="cancel-button action-button"
+                        onClick={() => openCancelModal(appointment)}
                       >
-                        View
+                        Cancel
                       </button>
-                    </td>
+                    )}
 
-
+                    {/* Disable View button if appointment is done or cancelled */}
+                    <button
+                      className="view-button action-button"
+                      onClick={() =>
+                        navigate(`/create-visit/${appointment.patient.patientId}`, {
+                          state: { appointmentID: appointment.appointmentID },
+                        })
+                      }
+                      disabled={appointment.isDone || appointment.isCancelled} // ✅ Disable button
+                    >
+                      View
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

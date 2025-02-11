@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import Sidebar from "./DoctorSidebar";
 import axios from "./axiosConfig";
 import "./VisitDetailsPage.css";
+import { FaUserCircle } from "react-icons/fa"; 
+
 
 const VisitDetailsPage = () => {
   const { visitID } = useParams();
@@ -90,24 +92,24 @@ const VisitDetailsPage = () => {
       <div className="content">
         {/* Personal Information */}
         <h3 className="section-title">Personal Information</h3>
-        <div className="personal-info-box special-box">
-          <div>
-            <p><strong>Full Name:</strong> {visitDetails.patient.user.firstName} {visitDetails.patient.user.lastName}</p>
-            <p><strong>Patient ID:</strong> {visitDetails.patient.patientId}</p>
-          </div>
-          <div>
-            <p><strong>Phone:</strong> {visitDetails.patient.user.phone}</p>
-            <p><strong>Email:</strong> {visitDetails.patient.user.email}</p>
-          </div>
-          <div>
-            <p><strong>Date of Birth:</strong> {visitDetails.patient.user.dateOfBirth || "N/A"}</p>
-            <p><strong>Blood Type:</strong> {visitDetails.patient.bloodType}</p>
-          </div>
-          <div>
-            <p><strong>Gender:</strong> {visitDetails.patient.gender}</p>
-            <p><strong>Height/Weight:</strong> {visitDetails.patient.height} cm / {visitDetails.patient.weight} kg</p>
+        {/* Patient Personal Information Box */}
+        <div className="patient-info-container">
+          <FaUserCircle className="patient-photo-icon-lg" />
+          <div className="patient-info-content">
+            <h2>{visitDetails.patient.user.firstName} {visitDetails.patient.user.lastName}</h2>
+            <div className="patient-info-grid-unique">
+              <p><strong>Patient ID:</strong> {visitDetails.patient.patientId}</p>
+              <p><strong>Email:</strong> {visitDetails.patient.user.email}</p>
+              <p><strong>Phone:</strong> {visitDetails.patient.user.phone}</p>
+              <p><strong>Date of Birth:</strong> {visitDetails.patient.user.dateOfBirth || "N/A"}</p>
+              <p><strong>Blood Type:</strong> {visitDetails.patient.bloodType}</p>
+              <p><strong>Gender:</strong> {visitDetails.patient.gender}</p>
+              <p><strong>Height:</strong> {visitDetails.patient.height} cm</p>
+              <p><strong>Weight:</strong> {visitDetails.patient.weight} kg</p>
+            </div>
           </div>
         </div>
+
 
         {/* Visit Information */}
         <h3 className="section-title">Visit Information</h3>

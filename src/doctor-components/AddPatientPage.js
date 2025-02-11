@@ -248,10 +248,8 @@ const AddPatientPage = () => {
           </div>
 
           <div className="form-actions">
-            <button type="button" className="cancel-button" onClick={handleCancel}>
-              Cancel
-            </button>
-            <button type="submit" className="add-button">
+           
+            <button type="submit" className="add-patient-button">
               Add
             </button>
           </div>

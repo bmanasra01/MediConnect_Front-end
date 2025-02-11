@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from './axiosConfig';
 import DoctorSidebar from './DoctorSidebar'; // Sidebar component
 import './PatientsPage.css';
+import './tables.css';
+
 
 const PatientsPage = () => {
   const [patients, setPatients] = useState([]);
@@ -73,36 +75,39 @@ const PatientsPage = () => {
           </button>
         </div>
 
-        {/* Patients Table */}
-        <table className="patients-table">
-          <thead>
-            <tr>
-              <th>Patient ID</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Gender</th>
-              <th>Email</th>
-              <th>Phone Number</th>
-              <th>Date of Birth</th>
-            </tr>
-          </thead>
-          <tbody>
-            {patients.map((patient) => (
-              <tr
-                key={patient.patientId}
-                onClick={() => navigate(`/patient-profile/${patient.patientId}`)} // Redirect to profile
-              >
-                <td>{patient.patientId}</td>
-                <td>{patient.user.firstName}</td>
-                <td>{patient.user.lastName}</td>
-                <td>{patient.gender}</td>
-                <td>{patient.user.email}</td>
-                <td>{patient.user.phone}</td>
-                <td>{patient.user.dateOfBirth}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+
+          <div className="table-container">
+            <table className="common-table">
+              <thead>
+                <tr>
+                  <th>Patient ID</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Gender</th>
+                  <th>Email</th>
+                  <th>Phone Number</th>
+                  <th>Date of Birth</th>
+                </tr>
+              </thead>
+              <tbody>
+                {patients.map((patient) => (
+                  <tr
+                    key={patient.patientId}
+                    onClick={() => navigate(`/patient-profile/${patient.patientId}`)} // Redirect to profile
+                  >
+                    <td>{patient.patientId}</td>
+                    <td>{patient.user.firstName}</td>
+                    <td>{patient.user.lastName}</td>
+                    <td>{patient.gender}</td>
+                    <td>{patient.user.email}</td>
+                    <td>{patient.user.phone}</td>
+                    <td>{patient.user.dateOfBirth}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
       </div>
     </div>
   );

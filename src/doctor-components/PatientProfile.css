@@ -1,5 +1,4 @@
 
-/* Patient Profile */
 .patient-profile {
   display: flex;
 }
@@ -8,45 +7,6 @@
   margin-left: 330px;
   flex: 1;
   padding: 20px;
-}
-
-.patient-info-box {
-  display: flex;
-  align-items: center;
-  background-color: #f9f9f9;
-  border: 2px solid #007b7b;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.patient-photo-icon {
-
-  color: #ccc;
-  margin-bottom: 20px;
-  padding-right: 20px;
-  padding: 50px;
-}
-
-.patient-info {
-  flex: 1;
-}
-
-.patient-info h2 {
-  margin: 0 0 20px;
-  font-size: 24px;
-  color: #333;
-}
-
-.patient-info-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px 20px;
-}
-
-.patient-info-grid p {
-  margin: 0;
-  color: #666;
 }
 
 .profile-header {
@@ -58,7 +18,6 @@
   border-bottom: 1px solid #ddd;
 }
 
-/* General List Styles */
 .diseases-list,
 .family-history-list,
 .xrays-list,
@@ -71,7 +30,7 @@
   width: 100%;
 }
 
-/* Card Styles */
+
 .disease-card,
 .family-history-card,
 .xray-card,
@@ -98,7 +57,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* Card Content */
+
 .card-content {
   display: flex;
   flex-wrap: wrap;
@@ -107,7 +66,7 @@
   align-items: center;
 }
 
-/* Information Sections */
+
 .disease-info,
 .family-history-info,
 .xray-info,
@@ -128,7 +87,7 @@
   word-wrap: break-word;
 }
 
-/* Buttons */
+
 .view-buttonoo,
 .deactivate-btn {
   background-color: #007b7b;
@@ -158,7 +117,7 @@
 }
 
 .view-more-button:hover {
-  background-color: #0056b3;
+  background-color: #005e5e;
 }
 
 @media (max-width: 768px) {
@@ -178,9 +137,7 @@
   }
 }
 
-
-/* Modal Styles */
-#pp-modal {
+/* #pp-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -257,6 +214,121 @@
 .pp-cancel-button:hover {
   background-color: #f5c6cb;
 }
+ */
+
+ #pp-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.pp-modal-content {
+  background-color: #ffffff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  width: 600px;
+  max-width: 90%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Updated layout: grid with 2 equal columns */
+.pp-confirmation-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.pp-confirmation-label {
+  font-weight: bold;
+  color: #007b7b;
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.pp-confirmation-value {
+  font-size: 14px;
+  color: #333;
+  display: block;
+  word-wrap: break-word;
+}
+
+/* Make specific rows full width */
+.confirmation-item.full-width {
+  grid-column: span 2;
+}
+
+/* Media file section */
+.xray-image-box {
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  background: #f4f4f4;
+  border: 1px dashed #ccc;
+  border-radius: 10px;
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  padding: 15px;
+}
+
+/* Media Button */
+.view-media-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* Disable button if no file exists */
+.view-media-button.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Modal action buttons */
+.pp-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.pp-cancel-button {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pp-cancel-button:hover {
+  background-color: #f5c6cb;
+}
+
+
+
 
 
 
@@ -272,10 +344,10 @@
 }
 
 .add-button:hover {
-  background-color: #0056b3;
+  background-color: #005e5e;
 }
 
-/* الخلفية المخففة */
+
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -289,7 +361,7 @@
   z-index: 1000;
 }
 
-/* صندوق البوب أب */
+
 .popup-box {
   width: 400px;
   background-color: white;
@@ -301,7 +373,7 @@
   position: relative;
 }
 
-/* التنسيق الداخلي للبوب أب */
+
 .popup-box select,
 .popup-box input,
 .popup-box textarea {
@@ -324,11 +396,9 @@
   margin-top: 10px;
 }
 .add-btn:hover {
-  background-color: #0056b3;
+  background-color: #005e5e;
 }
 
-
-/* زر الإلغاء */
 .cancel-btn {
   width: 100%;
   padding: 10px;
@@ -345,7 +415,6 @@
   background-color: darkred;
 }
 
-/* إزالة زر X من الأعلى */
 .close-btn {
   display: none;
 }

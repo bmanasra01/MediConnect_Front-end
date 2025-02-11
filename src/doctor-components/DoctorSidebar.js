@@ -34,12 +34,7 @@ const DoctorSidebar = () => {
             <span>Appointment</span>
           </Link>
         </li>
-        <li className={`sidebar-item ${location.pathname === '/add-visit' ? 'active' : ''}`}>
-          <Link to="/add-visit">
-            <FaUserPlus className="sidebar-icon" />
-            <span>Add Visit</span>
-          </Link>
-        </li>
+        
               <li className={`sidebar-item ${location.pathname === '/bappointments' ? 'active' : ''}`}>
         <Link to="/bappointments">
           <FaClock className="sidebar-icon" />

@@ -7,8 +7,7 @@
   padding: 20px;
 }
 
-/* Filters Section */
-.filters {
+/* .filters {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -21,9 +20,10 @@
   font-size: 16px;
   border: 1px solid #ddd;
   border-radius: 4px;
-}
+} */
 
-.apply-button {
+
+/* .apply-button {
   padding: 8px 16px;
   background-color: #007bff;
   color: white;
@@ -34,190 +34,4 @@
 
 .apply-button:hover {
   background-color: #0056b3;
-}
-
-/* Appointments Table */
-.appointment-table table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.appointment-table th,
-.appointment-table td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: left;
-}
-
-.appointment-table th {
-  background-color: #f4f4f4;
-}
-
-/* Status Labels */
-.state-label {
-  padding: 5px 10px;
-  border-radius: 3px;
-  text-transform: uppercase;
-  font-size: 12px;
-}
-
-.state-label.PENDING {
-  background-color: #ffc107;
-  color: black;
-}
-
-.state-label.DONE {
-  background-color: #4caf50;
-  color: white;
-}
-
-.state-label.CANCELED {
-  background-color: #f44336;
-  color: white;
-}
-
-/* Cancel Button */
-.cancel-button {
-  padding: 5px 10px;
-  background-color: #f44336;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.cancel-button:hover {
-  background-color: #c0392b;
-}
-
-/* Action Buttons */
-.cancel-button {
-background-color: #d9534f;
-color: white;
-border: none;
-padding: 6px 12px;
-cursor: pointer;
-border-radius: 4px;
-margin-right: 5px;
-}
-
-.cancel-button:hover {
-background-color: #c9302c;
-}
-
-.view-button {
-background-color: #5bc0de;
-color: white;
-border: none;
-padding: 6px 12px;
-cursor: pointer;
-border-radius: 4px;
-}
-
-.view-button:hover {
-background-color: #31b0d5;
-}
-
-
-
-
-/* Status Labels */
-.state-label {
-padding: 4px 8px;
-border-radius: 4px;
-color: white;
-font-weight: bold;
-text-transform: uppercase;
-}
-
-.state-label.CANCELED {
-background-color: #d9534f;
-}
-
-.state-label.DONE {
-background-color: #5cb85c;
-}
-
-.state-label.PENDING {
-background-color: #f0ad4e;
-}
-
-/* Modal Overlay */
-.modal-overlay {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(0, 0, 0, 0.5);
-display: flex;
-justify-content: center;
-align-items: center;
-z-index: 1000;
-}
-
-/* Modal */
-.modal {
-background: #fff;
-padding: 20px;
-border-radius: 8px;
-text-align: center;
-box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.modal h2 {
-margin-bottom: 10px;
-color: #333;
-}
-
-.modal-actions button {
-margin: 10px;
-padding: 8px 12px;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-}
-
-.confirm-button {
-background-color: #d9534f;
-color: white;
-}
-
-.cancel-button {
-background-color: #5bc0de;
-color: white;
-}
-
-/* Table Buttons */
-.cancel-button,
-.view-button {
-margin: 4px;
-padding: 6px 10px;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-}
-
-.cancel-button {
-background-color: #d9534f;
-color: white;
-}
-
-.view-button {
-background-color: #5bc0de;
-color: white;
-}
-
-.state-label.CANCELED {
-color: #d9534f;
-}
-
-.state-label.DONE {
-color: #ffffff;
-}
-
-.state-label.PENDING {
-color: #f0ad4e;
-}
-
-
+} */

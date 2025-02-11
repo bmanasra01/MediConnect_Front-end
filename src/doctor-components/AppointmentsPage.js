@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "./DoctorSidebar";
 import axios from "./axiosConfig";
 import "./AppointmentsPage.css";
+import "./tables.css";
+import "./ModalOverlay.css";
+import "./search-bar.css"; // استيراد الستايل الموحد
+
 
 const AppointmentsPage = () => {
   const [appointments, setAppointments] = useState([]);
@@ -70,27 +74,27 @@ const AppointmentsPage = () => {
 
       <div className="content">
         <h1>Appointments</h1>
-        <div className="filters">
-          <input
-            type="text"
-            placeholder="Search by patient name or ID..."
-            value={searchQuery}
-            onChange={handleSearchChange}
-            className="search-bar"
-          />
-          <input
-            type="date"
-            value={selectedDate}
-            onChange={handleDateChange}
-            className="date-picker"
-          />
-        </div>
+        <div className="search-bar-container">
+        <input
+          type="text"
+          placeholder="Search by patient name or ID..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+          className="input"
+        />
+        <input
+          type="date"
+          value={selectedDate}
+          onChange={handleDateChange}
+          className="input"
+        />
+      </div>
 
         {loading ? (
           <p>Loading appointments...</p>
         ) : (
-          <div className="appointment-table">
-            <table>
+          <div className="table-container">
+            <table className="common-table">
               <thead>
                 <tr>
                   <th>Appointment ID</th>
@@ -126,14 +130,14 @@ const AppointmentsPage = () => {
                       <td>
                         {!appointment.isCancelled && !appointment.isDone && (
                           <button
-                            className="cancel-button"
+                            className="cancel-button action-button"
                             onClick={() => openCancelModal(appointment)}
                           >
                             Cancel
                           </button>
                         )}
                         <button
-                          className="view-button"
+                          className="view-button action-button"
                           onClick={() =>
                             navigate(
                               `/patient-profile/${appointment.patient.patientId}`

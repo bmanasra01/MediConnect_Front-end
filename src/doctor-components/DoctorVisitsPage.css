@@ -18,42 +18,10 @@
 
 .visits-header-section {
   display: flex;
-  align-items: flex-start; /* Align items to the top */
-  gap: 20px; /* Add space between the visits box and the filters */
+  align-items: flex-start; 
+  gap: 20px; 
   margin-bottom: 20px;
 }
-
-
-/* .visits-total-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: #ffffff;
-  border: 2px solid #007b7b;
-  border-radius: 10px;
-  padding: 10px 15px;
-  width: 180px;
-  height: 40px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.total-icon {
-  font-size: 20px;
-  color: #007b7b;
-}
-
-.visits-total-box h3 {
-  font-size: 15px;
-  margin: 0;
-  color: #007b7b;
-}
-
-.visits-total-box p {
-  font-size: 15px;
-  font-weight: bold;
-  color: #007b7b;
-  margin: 0;
-} */
 
 .visits-total-box {
   border: 2px solid #007b7b;
@@ -74,19 +42,19 @@
 .visits-total-box h3 {
   font-size: 14px;
   margin: 0;
-  color: #7e7e7e; /* Grey for the title */
+  color: #7e7e7e; 
 }
 
 .visits-total-box p {
-  font-size: 36px; /* Larger font for count */
+  font-size: 36px; 
   font-weight: bold;
   margin: 0;
-  color: #4a4a4a; /* Neutral color for number */
+  color: #4a4a4a; 
 }
 
 .total-icon {
   font-size: 50px;
-  color: #a3c684; /* Greenish icon */
+  color: #a3c684; 
   position: absolute;
   right: 10px;
   bottom: 10px;
@@ -94,14 +62,14 @@
 
 .visits-total-box .percentage {
   font-size: 12px;
-  color: #28a745; /* Green for positive percentage */
+  color: #28a745; 
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
 .percentage span:first-child {
-  font-size: 14px; /* Slightly larger arrow icon */
+  font-size: 14px; 
 }
 
 
@@ -111,33 +79,23 @@
 
 .filters-container {
   display: flex;
-  flex-direction: column; /* Stack search bar and filters vertically */
+  flex-direction: column; 
   gap: 10px;
 }
 
-
-
 .visits-search {
-  width: 500px; /* Adjust width as needed */
+  width: 500px; 
   padding: 10px;
   border: 2px solid #007b7b;
   border-radius: 8px;
   font-size: 14px;
 }
-/* .visits-search {
-  width: 100%;
-  max-width: 500px;
-  padding: 10px;
-  border: 2px solid #007b7b;
-  border-radius: 8px;
-  font-size: 14px;
-} */
+
 
 .filters-subsection {
   display: flex;
-  gap: 10px; /* Spacing between the month and year inputs */
+  gap: 10px; 
 }
-
 
 .visits-filters {
   display: flex;
@@ -145,44 +103,16 @@
   margin-bottom: 20px;
 }
 
-/* .visits-month-filter,
-.visits-year-filter {
-  width: 120px;
-  padding: 5px;
-  font-size: 14px;
-  border: 2px solid #007b7b;
-  border-radius: 5px;
-} */
-
 .visits-month-filter,
 .visits-year-filter {
-  width: 140px; /* Adjust the width */
+  width: 140px; 
   padding: 5px;
   font-size: 14px;
   border: 2px solid #007b7b;
   border-radius: 5px;
 }
 
-.visits-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: white;
-}
 
-.visits-table th {
-  background-color: #f9f9f9;
-  color: #007b7b;
-  font-weight: bold;
-}
 
-.visits-table th,
-.visits-table td {
-  text-align: left;
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
-}
 
-.visits-table tr:hover {
-  background-color: rgba(0, 123, 123, 0.1);
-  cursor: pointer;
-}
+
