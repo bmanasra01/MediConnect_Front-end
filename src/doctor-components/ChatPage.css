@@ -1,0 +1,293 @@
+.chat-page-container {
+    display: flex;
+    height: 100vh;
+    background: #f4f7fc;
+  }
+  
+  .chat-content {
+    margin-left: 310px;
+    flex: 1; /* ✅ اجعل المحتوى يتمدد تلقائيًا لملء المساحة المتبقية */
+    display: flex;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .doctor-sidebar {
+    width: 310px; /* ✅ تأكد من أن السايدبار له عرض ثابت */
+    height: 100vh;
+    background: #ffffff;
+    border-right: 1px solid #ddd;
+  }
+  
+  
+  /* ✅ قائمة اليوزر */
+  .chat-list {
+    width: 30%;
+    background: #ffffff;
+    border-left: 1px solid #ddd;
+    overflow-y: auto;
+    padding: 15px;
+  }
+  
+  .chat-search {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .chat-search input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background: #f1f1f1;
+    outline: none;
+  }
+  
+  .chat-item {
+    padding: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #eee;
+    transition: background 0.3s ease;
+  }
+  
+  .chat-item:hover {
+    background: #e8f0ff;
+    border-radius: 8px;
+  }
+  
+  .chat-user-info {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .user-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .user-details {
+    flex: 1;
+  }
+  
+  .user-name {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .last-message {
+    font-size: 12px;
+    color: #888;
+  }
+  
+  /* ✅ شاشة الرسائل */
+  .chat-window {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #f9f9f9;
+    border-left: 1px solid #ddd;
+    padding: 20px;
+  }
+  
+  .chat-header {
+    padding-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #007b7b;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .message {
+    padding: 10px 15px;
+    margin: 8px;
+    border-radius: 15px;
+    max-width: 60%;
+    font-size: 14px;
+    position: relative;
+    display: flex;
+  }
+  
+  .sent {
+    background: #007b7b;
+    color: white;
+    align-self: flex-end;
+    text-align: right;
+    border-radius: 15px 15px 0 15px;
+  }
+  
+  .received {
+    background: #ffffff;
+    color: black;
+    align-self: flex-start; /* تحريك الرسالة لليسار */
+    text-align: left;
+    border-radius: 15px 15px 15px 0;
+    border: 1px solid #ddd;
+  }
+  
+  .timestamp {
+    font-size: 10px;
+    color: #bbb;
+    display: block;
+    margin-top: 5px;
+    text-align: right;
+  }
+  
+  /* ✅ إدخال الرسالة */
+  .message-input {
+    display: flex;
+    padding: 10px;
+    background: white;
+    border-top: 1px solid #ddd;
+    align-items: center;
+  }
+  
+  .message-input input {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    background: #f1f1f1;
+    outline: none;
+  }
+  
+  .message-input button {
+    padding: 12px 15px;
+    background: #007b7b;
+    color: white;
+    border: none;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .message-input button:hover {
+    background: #0056b3;
+  }
+  
+  .select-chat {
+    text-align: center;
+    color: #888;
+    font-size: 16px;
+  }
+
+  .search-results {
+    position: absolute;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  
+  .search-item:hover {
+    background: #f1f1f1;
+  }
+
+  .chat-image {
+    max-width: 200px;
+    border-radius: 10px;
+    margin: 5px 0;
+  }
+
+  .file-upload-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #007bff;
+    padding: 5px;
+  }
+  
+  .file-upload-btn:hover {
+    color: #dbd5d5;
+  }
+
+  .voice-record-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #e63946;
+    padding: 5px;
+  }
+  
+  .voice-record-btn:hover {
+    color: #dbd5d5;
+  }
+  
+  .image-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .image-popup-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .image-popup img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .close-popup-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: red;
+  }
+  
+  .close-popup-btn:hover {
+    color: darkred;
+  }
+  
+  
+  
+  

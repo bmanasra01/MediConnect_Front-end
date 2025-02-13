@@ -20,7 +20,7 @@ const DoctorsPage = () => {
         const response = await axios.get('/admin/user', {
           params: {
             page: 1,
-            size: 10,
+            size: 100,
             search: searchTerm, // Search term used for filtering
             role: 'DOCTOR',
           },

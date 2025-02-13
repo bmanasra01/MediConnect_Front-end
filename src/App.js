@@ -26,9 +26,14 @@ import DoctorVisitsPage from './doctor-components/DoctorVisitsPage';
 import VisitDetailsPage from "./doctor-components/VisitDetailsPage";
 
 
+import ChatsPage from './doctor-components/ChatsPage';
+
+
+
 
 import ScheduleSettingsPage from './doctor-components/ScheduleSettingsPage';
 import BookAppointment from "./doctor-components/BookAppointment";
+
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -147,6 +152,15 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
+<Route path="/chat" element={
+    <ProtectedRoute>
+        <ChatsPage />
+    </ProtectedRoute>
+} />
+
+          
+
 
 
 

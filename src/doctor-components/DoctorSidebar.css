@@ -1,4 +1,3 @@
-/* Sidebar */
 .sidebar {
   width: 17%;
   height: 100vh;
@@ -13,13 +12,11 @@
   z-index: 100;
 }
 
-/* Logo Section */
 .sidebar-logo img {
   width: 150px;
   margin-bottom: 20px;
 }
 
-/* Sidebar Menu */osss 
 .sidebar-menu,
 .sidebar-bottom-menu {
   list-style: none;
@@ -36,18 +33,18 @@
   color: #5a5a5a;
   cursor: pointer;
   border-radius: 8px;
-  text-decoration: none; /* Remove underline */
+  text-decoration: none; 
   background-color: transparent;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .sidebar-item.active {
-  background-color: #e0f7f8; /* Highlight active button */
+  background-color: #e0f7f8; 
   color: #007b7b;
 }
 
 .sidebar-item:hover {
-  background-color: #d0f0f1; /* Add hover effect */
+  background-color: #d0f0f1; 
   color: #005f5f;
 }
 

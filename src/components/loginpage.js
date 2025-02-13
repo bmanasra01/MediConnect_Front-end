@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import './loginpage.css';
 import logo from '../assets/mediconnect.png';
 import LoginImage from '../assets/login.png';
+import { auth } from "../firebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 
 const LoginPage = () => {
     const [contactInfo, setContactInfo] = useState('');
@@ -34,6 +37,7 @@ const LoginPage = () => {
             // Store the token and role in localStorage
             localStorage.setItem('access_token', access_token);
             localStorage.setItem('role', Role); // Store the user's role here
+            localStorage.setItem('user_email', contactInfo); // لا داعي لإرجاع الإيميل من Spring Boot
     
             // If "Remember Me" is checked, save the email/contact info
             if (rememberMe) {
@@ -44,6 +48,21 @@ const LoginPage = () => {
     
             // Clear any previous error messages
             setErrorMessage('');
+
+            // ✅ إذا كان المستخدم "DOCTOR"، يتم تسجيل الدخول في Firebase أيضًا
+            if (Role === 'DOCTOR') {
+                try {
+                    const firebaseUser = await signInWithEmailAndPassword(auth, contactInfo, password);
+                    const firebaseUID = firebaseUser.user.uid;
+                    localStorage.setItem('userID', firebaseUID); // ✅ تخزين userID من Firebase
+
+                    console.log("Firebase Login Success:", firebaseUser.user);
+                } catch (firebaseError) {
+                    console.error("Firebase login failed:", firebaseError.message);
+                    setErrorMessage('Login successful on backend, but failed on Firebase. Contact support.');
+                    return;
+                }
+            }
     
             // Navigate based on the user's role
             if (Role === 'ADMIN') {
@@ -53,6 +72,7 @@ const LoginPage = () => {
             } else {
                 console.error('Unknown role:', Role);
             }
+
         } catch (error) {
             // Check if the error has a response with status code
             if (error.response) {
