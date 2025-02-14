@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from './axiosConfig';
 import Sidebar from './Sidebar';
 import { auth, createUserWithEmailAndPassword } from '../firebaseConfig'; // Import Firebase functions
 import './AddDoctorPage.css';
-import { getFirestore, doc, setDoc } from "firebase/firestore"; // Firestore imports
-import { deleteDoc } from "firebase/firestore";
+import "./UniqueModal.css";
+import { getFirestore, doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
 
 
 const db = getFirestore(); // Initialize Firestore
@@ -15,6 +14,11 @@ const AddDoctorPage = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
 
   const [doctorData, setDoctorData] = useState({
     doctorId: '',
@@ -64,107 +68,290 @@ const AddDoctorPage = () => {
   };
 
   // Handle form submission
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setShowConfirmation(true);
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setShowConfirmation(true);
+    setShowModal(true);
   };
+  
 
+//   const confirmAddDoctor = async () => {
+//     setShowConfirmation(false);
+//     setError('');
+//     setSuccess('');
 
+//     let firebaseUID = null; // ✅ Declare firebaseUID outside try-catch
+//     try {
+//         // ✅ 1. Create the doctor in Firebase Authentication
+//         const userCredential = await createUserWithEmailAndPassword(
+//             auth,
+//             doctorData.user.email,
+//             doctorData.user.password
+//         );
 
-  const confirmAddDoctor = async () => {
-    setShowConfirmation(false);
-    setError('');
-    setSuccess('');
+//         console.log("Doctor created in Firebase:", userCredential.user);
+//          firebaseUID = userCredential.user.uid;
 
-    let firebaseUID = null; // ✅ Declare firebaseUID outside try-catch
-    try {
-        // ✅ 1. Create the doctor in Firebase Authentication
-        const userCredential = await createUserWithEmailAndPassword(
-            auth,
-            doctorData.user.email,
-            doctorData.user.password
-        );
+//         // ✅ 2. Store doctor details in Firestore `users` collection
+//         const doctorFirestoreData = {
+//             uid: firebaseUID,
+//             doctorId: doctorData.doctorId,
+//             email: doctorData.user.email,
+//             firstName: doctorData.user.firstName,
+//             lastName: doctorData.user.lastName,
+//             phone: doctorData.user.phone,
+//             dateOfBirth: doctorData.user.dateOfBirth,
+//             gender: doctorData.gender,
+//             role: "DOCTOR",
+//             special_name: doctorData.special_name,
+//         };
 
-        console.log("Doctor created in Firebase:", userCredential.user);
-         firebaseUID = userCredential.user.uid;
+//         await setDoc(doc(db, "users", firebaseUID), doctorFirestoreData);
+//         console.log("Doctor added to Firestore users collection");
 
-        // ✅ 2. Store doctor details in Firestore `users` collection
-        const doctorFirestoreData = {
-            uid: firebaseUID,
-            doctorId: doctorData.doctorId,
-            email: doctorData.user.email,
-            firstName: doctorData.user.firstName,
-            lastName: doctorData.user.lastName,
-            phone: doctorData.user.phone,
-            dateOfBirth: doctorData.user.dateOfBirth,
-            gender: doctorData.gender,
-            role: "DOCTOR",
-            special_name: doctorData.special_name,
-        };
+//         // ✅ 3. Prepare doctor data for Spring Boot backend
+//         const finalDoctorData = {
+//             doctorId: doctorData.doctorId,
+//             gender: doctorData.gender,
+//             special_name: doctorData.special_name,
+//             user: {
+//                 email: doctorData.user.email,
+//                 password: doctorData.user.password,
+//                 firstName: doctorData.user.firstName,
+//                 lastName: doctorData.user.lastName,
+//                 phone: doctorData.user.phone,
+//                 dateOfBirth: doctorData.user.dateOfBirth,
+//                 UserID: doctorData.doctorId,
+//             },
+//         };
 
-        await setDoc(doc(db, "users", firebaseUID), doctorFirestoreData);
-        console.log("Doctor added to Firestore users collection");
+//         // ✅ 4. Send the doctor data to Spring Boot backend (No need to add token manually)
+//         const response = await axios.post('/admin/doctors/', finalDoctorData);
 
-        // ✅ 3. Prepare doctor data for Spring Boot backend
-        const finalDoctorData = {
-            doctorId: doctorData.doctorId,
-            gender: doctorData.gender,
-            special_name: doctorData.special_name,
-            user: {
-                email: doctorData.user.email,
-                password: doctorData.user.password,
-                firstName: doctorData.user.firstName,
-                lastName: doctorData.user.lastName,
-                phone: doctorData.user.phone,
-                dateOfBirth: doctorData.user.dateOfBirth,
-                UserID: doctorData.doctorId,
-            },
-        };
+//         console.log('Doctor added successfully to backend:', response.data);
+//         setSuccess('Doctor added successfully!');
 
-        // ✅ 4. Send the doctor data to Spring Boot backend (No need to add token manually)
-        const response = await axios.post('/admin/doctors/', finalDoctorData);
+//         // ✅ 5. Reset the form
+//         setDoctorData({
+//             doctorId: '',
+//             gender: 'MALE',
+//             special_name: '',
+//             user: {
+//                 email: '',
+//                 password: '',
+//                 firstName: '',
+//                 lastName: '',
+//                 phone: '',
+//                 dateOfBirth: '',
+//             },
+//         });
 
-        console.log('Doctor added successfully to backend:', response.data);
-        setSuccess('Doctor added successfully!');
+//     } catch (err) {
+//       console.error('Error adding doctor:', err);
 
-        // ✅ 5. Reset the form
-        setDoctorData({
-            doctorId: '',
-            gender: 'MALE',
-            special_name: '',
-            user: {
-                email: '',
-                password: '',
-                firstName: '',
-                lastName: '',
-                phone: '',
-                dateOfBirth: '',
-            },
-        });
+//       // ✅ Rollback: If Firebase added the doctor but backend failed, remove from Firebase
+//       if (doctorData.user.email) {
+//           console.log("Rolling back Firebase user creation...");
+//           try {
+//               if (auth.currentUser && auth.currentUser.uid === firebaseUID) {
+//                   await auth.currentUser.delete(); // Delete user from Firebase Auth
+//                   console.log("Doctor removed from Firebase Authentication.");
+//               }
+//               // await setDoc(doc(db, "users", firebaseUID), {}); 
+//               await deleteDoc(doc(db, "users", firebaseUID)); // ✅ Safe Firestore removal
+//               console.log("Doctor removed from Firestore.");
+//           } catch (rollbackErr) {
+//               console.error("Failed to rollback Firebase:", rollbackErr.message);
+//           }
+//       }
 
-    } catch (err) {
-      console.error('Error adding doctor:', err);
+//       // ✅ Show error in confirmation dialog
+//       setError(`Failed to add doctor: ${err.response?.data || err.message}`);
+//   }
+// };
 
-      // ✅ Rollback: If Firebase added the doctor but backend failed, remove from Firebase
-      if (doctorData.user.email) {
-          console.log("Rolling back Firebase user creation...");
-          try {
-              if (auth.currentUser && auth.currentUser.uid === firebaseUID) {
-                  await auth.currentUser.delete(); // Delete user from Firebase Auth
-                  console.log("Doctor removed from Firebase Authentication.");
-              }
-              // await setDoc(doc(db, "users", firebaseUID), {}); 
-              await deleteDoc(doc(db, "users", firebaseUID)); // ✅ Safe Firestore removal
-              console.log("Doctor removed from Firestore.");
-          } catch (rollbackErr) {
-              console.error("Failed to rollback Firebase:", rollbackErr.message);
-          }
+// const confirmAddDoctor = async () => {
+//   setShowModal(false);
+//   setErrorMessage("");
+//   setSuccessMessage("");
+
+//   let firebaseUID = null;
+
+//   try {
+//     // ✅ 1. التحقق مما إذا كان البريد الإلكتروني مسجلاً بالفعل في Firestore
+//     const emailRef = doc(db, "users", doctorData.user.email);
+//     const emailSnap = await getDoc(emailRef);
+//     if (emailSnap.exists()) {
+//       setErrorMessage("This email is already registered in Firebase.");
+//       setShowModal(true);
+//       return;
+//     }
+
+//     // ✅ 2. إنشاء الطبيب في Firebase
+//     const userCredential = await createUserWithEmailAndPassword(auth, doctorData.user.email, doctorData.user.password);
+//     firebaseUID = userCredential.user.uid;
+
+//     // ✅ 3. حفظ بيانات الطبيب في Firestore
+//     const doctorFirestoreData = {
+//       uid: firebaseUID,
+//       doctorId: doctorData.doctorId,
+//       email: doctorData.user.email,
+//       firstName: doctorData.user.firstName,
+//       lastName: doctorData.user.lastName,
+//       phone: doctorData.user.phone,
+//       dateOfBirth: doctorData.user.dateOfBirth,
+//       gender: doctorData.gender,
+//       role: "DOCTOR",
+//       special_name: doctorData.special_name,
+//     };
+//     await setDoc(doc(db, "users", firebaseUID), doctorFirestoreData);
+
+//     // ✅ 4. إرسال البيانات إلى Spring Boot
+//     const finalDoctorData = {
+//       doctorId: Number(doctorData.doctorId),
+//       gender: doctorData.gender,
+//       special_name: doctorData.special_name,
+//       user: {
+//         email: doctorData.user.email,
+//         password: doctorData.user.password,
+//         firstName: doctorData.user.firstName,
+//         lastName: doctorData.user.lastName,
+//         phone: doctorData.user.phone,
+//         dateOfBirth: doctorData.user.dateOfBirth,
+//       },
+//     };
+
+//     const response = await axios.post("/admin/doctors/", finalDoctorData, {
+//       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+//     });
+
+//     setSuccessMessage("Doctor added successfully!");
+
+//     // ✅ 5. إعادة تعيين الفورم
+//     setDoctorData({
+//       doctorId: "",
+//       gender: "MALE",
+//       special_name: "",
+//       user: { email: "", password: "", firstName: "", lastName: "", phone: "", dateOfBirth: "" },
+//     });
+
+//   } catch (err) {
+//     if (err.response && err.response.status === 409) {
+//       setErrorMessage("A doctor with this Email, Phone, or ID already exists.");
+//     } else {
+//       setErrorMessage(`Failed to add doctor: ${err.response?.data || err.message}`);
+//     }
+//     setShowModal(true);
+
+//     // ✅ التراجع عن الإضافة في Firebase إذا فشل الإرسال إلى الباك إند
+//     if (firebaseUID) {
+//       try {
+//         if (auth.currentUser && auth.currentUser.uid === firebaseUID) {
+//           await auth.currentUser.delete();
+//         }
+//         await deleteDoc(doc(db, "users", firebaseUID));
+//       } catch (rollbackErr) {
+//         console.error("Failed to rollback Firebase:", rollbackErr.message);
+//       }
+//     }
+//   }
+// };
+
+const confirmAddDoctor = async () => {
+  setErrorMessage("");
+  setSuccessMessage("");
+
+  let firebaseUID = null;
+
+  try {
+    // ✅ 1. التحقق مما إذا كان البريد الإلكتروني مسجلاً بالفعل في Firestore
+    const emailRef = doc(db, "users", doctorData.user.email);
+    const emailSnap = await getDoc(emailRef);
+    if (emailSnap.exists()) {
+      setErrorMessage("This email is already registered in Firebase.");
+      return; // ⛔️ لا تغلق المودال إذا وجد البريد الإلكتروني
+    }
+
+    // ✅ 2. إنشاء الطبيب في Firebase
+    const userCredential = await createUserWithEmailAndPassword(auth, doctorData.user.email, doctorData.user.password);
+    firebaseUID = userCredential.user.uid;
+
+    // ✅ 3. حفظ بيانات الطبيب في Firestore
+    const doctorFirestoreData = {
+      uid: firebaseUID,
+      doctorId: doctorData.doctorId,
+      email: doctorData.user.email,
+      firstName: doctorData.user.firstName,
+      lastName: doctorData.user.lastName,
+      phone: doctorData.user.phone,
+      dateOfBirth: doctorData.user.dateOfBirth,
+      gender: doctorData.gender,
+      role: "DOCTOR",
+      special_name: doctorData.special_name,
+    };
+    await setDoc(doc(db, "users", firebaseUID), doctorFirestoreData);
+
+    // ✅ 4. إرسال البيانات إلى Spring Boot
+    const finalDoctorData = {
+      doctorId: Number(doctorData.doctorId),
+      gender: doctorData.gender,
+      special_name: doctorData.special_name,
+      user: {
+        email: doctorData.user.email,
+        password: doctorData.user.password,
+        firstName: doctorData.user.firstName,
+        lastName: doctorData.user.lastName,
+        phone: doctorData.user.phone,
+        dateOfBirth: doctorData.user.dateOfBirth,
+      },
+    };
+
+    const response = await axios.post("/admin/doctors/", finalDoctorData, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+
+    setSuccessMessage("Doctor added successfully!");
+    // setTimeout(() => {
+    //   setShowModal(false); 
+    //   setSuccessMessage(""); 
+    // }, 2000); 
+
+    // ✅ 5. إعادة تعيين الفورم
+    setDoctorData({
+      doctorId: "",
+      gender: "MALE",
+      special_name: "",
+      user: { email: "", password: "", firstName: "", lastName: "", phone: "", dateOfBirth: "" },
+    });
+
+  } catch (err) {
+    if (err.response && err.response.status === 409) {
+      setErrorMessage("A doctor with this Email, Phone, or ID already exists.");
+    } else {
+      setErrorMessage(`Failed to add doctor: ${err.response?.data || err.message}`);
+    }
+    setShowModal(true); // ✅ أبقِ المودال مفتوحًا عند حدوث خطأ
+
+    // ✅ التراجع عن الإضافة في Firebase إذا فشل الإرسال إلى الباك إند
+    if (firebaseUID) {
+      try {
+        if (auth.currentUser && auth.currentUser.uid === firebaseUID) {
+          await auth.currentUser.delete();
+        }
+        await deleteDoc(doc(db, "users", firebaseUID));
+      } catch (rollbackErr) {
+        console.error("Failed to rollback Firebase:", rollbackErr.message);
       }
-
-      // ✅ Show error in confirmation dialog
-      setError(`Failed to add doctor: ${err.response?.data || err.message}`);
+    }
   }
 };
+
+
+
 
 
   return (
@@ -273,17 +460,17 @@ const AddDoctorPage = () => {
           <button type="submit" className="add-button">Add Doctor</button>
         </form>
 
-              {showConfirmation && (
+              {/* {showConfirmation && (
         <div className="confirmation-dialog">
             <h3>Confirm Doctor Details</h3>
 
-            {/* Show error message if exists */}
+           
             {error && <p className="error-message">{error}</p>}
 
-            {/* Show success message if exists */}
+            
             {success && <p className="success-message">{success}</p>}
 
-            {/* Show doctor details */}
+            
             <ul className="doctor-details-list">
                 <li><strong>Doctor ID:</strong> {doctorData.doctorId}</li>
                 <li><strong>Gender:</strong> {doctorData.gender}</li>
@@ -295,7 +482,7 @@ const AddDoctorPage = () => {
                 <li><strong>Date of Birth:</strong> {doctorData.user.dateOfBirth}</li>
             </ul>
 
-            {/* Confirm & Cancel buttons */}
+            
             <div className="dialog-actions">
                 <button 
                     onClick={confirmAddDoctor} 
@@ -309,7 +496,64 @@ const AddDoctorPage = () => {
                 </button>
             </div>
         </div>
-      )}
+      )} */}
+
+{showModal && (
+  <div id="unique-modal" className="unique-modal">
+    <div className="unique-modal-content">
+      <h3>Confirm Doctor Details</h3>
+      <div className="unique-confirmation-form">
+        <div className="confirmation-row">
+          <div className="confirmation-item">
+            <label className="unique-confirmation-label">Doctor ID:</label>
+            <span className="unique-confirmation-value">{doctorData.doctorId || "N/A"}</span>
+          </div>
+          <div className="confirmation-item">
+            <label className="unique-confirmation-label">First Name:</label>
+            <span className="unique-confirmation-value">{doctorData.user.firstName || "N/A"}</span>
+          </div>
+          <div className="confirmation-item">
+            <label className="unique-confirmation-label">Last Name:</label>
+            <span className="unique-confirmation-value">{doctorData.user.lastName || "N/A"}</span>
+          </div>
+        </div>
+
+        <div className="confirmation-row">
+          <div className="confirmation-item">
+            <label className="unique-confirmation-label">Email:</label>
+            <span className="unique-confirmation-value">{doctorData.user.email || "N/A"}</span>
+          </div>
+          <div className="confirmation-item">
+            <label className="unique-confirmation-label">Phone:</label>
+            <span className="unique-confirmation-value">{doctorData.user.phone || "N/A"}</span>
+          </div>
+        </div>
+
+        <div className="confirmation-row">
+          <div className="confirmation-item">
+            <label className="unique-confirmation-label">Specialization:</label>
+            <span className="unique-confirmation-value">{doctorData.special_name || "N/A"}</span>
+          </div>
+          <div className="confirmation-item">
+            <label className="unique-confirmation-label">Gender:</label>
+            <span className="unique-confirmation-value">{doctorData.gender || "N/A"}</span>
+          </div>
+        </div>
+
+        <div className="unique-modal-actions">
+          <button onClick={() => setShowModal(false)} className="unique-cancel-button">Cancel</button>
+          <button onClick={confirmAddDoctor} className="unique-confirm-button">Confirm</button>
+        </div>
+
+        {/* ✅ عرض رسالة الخطأ أو النجاح داخل المودال */}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
+      </div>
+    </div>
+  </div>
+)}
+
+
 
       </div>
     </div>

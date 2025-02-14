@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "./DoctorSidebar";
+import DoctorSidebar from "./DoctorSidebar";
 import axios from "./axiosConfig";
 import "./AppointmentsPage.css";
 import "./tables.css";
@@ -69,10 +69,10 @@ const AppointmentsPage = () => {
   };
 
   return (
-    <div className="appointments-page">
-      <Sidebar />
+    <div className="appointments-page1">
+      <DoctorSidebar/>
 
-      <div className="content">
+      <div className="appointments-content">
         <h1>Appointments</h1>
         <div className="search-bar-container">
         <input

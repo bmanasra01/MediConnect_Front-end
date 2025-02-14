@@ -14,7 +14,7 @@
 .add-doctor-page-content {
   flex: 3;
   padding: 20px;
-  margin-left: 300px; /* Adjust if the sidebar width changes */
+  margin-left: 380px; /* Adjust if the sidebar width changes */
 }
 
 h2 {

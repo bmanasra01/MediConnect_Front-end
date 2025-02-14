@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "./axiosConfig"; 
 import DoctorSidebar from "./DoctorSidebar";
@@ -6,7 +5,6 @@ import "./BookAppointment.css";
 import "./tables.css";
 import { toast } from "react-toastify";
 import { FaUserCircle } from "react-icons/fa"; 
-
 
 const BookAppointment = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,6 +15,41 @@ const BookAppointment = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [customDate, setCustomDate] = useState(""); // For selecting a date beyond the first 7 days
+
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [bookingPatient, setBookingPatient] = useState(null);
+  const [bookingTime, setBookingTime] = useState("");
+
+  const [isDateValid, setIsDateValid] = useState(true);
+
+
+  const handleOpenBookingModal = (appointmentTime) => {
+    if (!selectedPatient) {
+      toast.warning("Please select a patient first.");
+      return;
+    }
+    setBookingPatient(selectedPatient);
+    setBookingTime(appointmentTime);
+    setShowBookingModal(true); // فتح المودال
+  };
+
+  const confirmBooking = async () => {
+    try {
+      const payload = {
+        appointmentDate: selectedDate,
+        appointmentTime: bookingTime,
+        patientID: bookingPatient.patientId,
+      };
+      await axios.post("/appointments/appointment/doctor", payload);
+  
+      setShowBookingModal(false); // إغلاق المودال تلقائيًا بعد الحجز
+      fetchAppointments(selectedDate); // تحديث الجدول بعد الحجز
+    } catch (err) {
+      console.error("Error booking appointment:", err);
+      toast.error("Failed to book the appointment. Please try again.");
+    }
+  };
+  
 
   // Generate the first 7 days
   useEffect(() => {
@@ -34,6 +67,7 @@ const BookAppointment = () => {
     generateDates();
   }, []);
 
+
   // Fetch appointments for the selected date
   useEffect(() => {
     if (selectedDate) {
@@ -41,24 +75,28 @@ const BookAppointment = () => {
     }
   }, [selectedDate]);
 
-  // Fetch appointments
+
   const fetchAppointments = async (date) => {
     try {
       const response = await axios.get(`/appointments/slots`, {
         params: { doctorID: "", date },
       });
-
+  
       if (typeof response.data === "string") {
-        toast.info(response.data); // Show the message from the backend
-        setAppointments([]); // Clear appointments if no slots are available
+        // ✅ إذا كانت الاستجابة رسالة نصية، فهذا يعني عدم وجود مواعيد
+        setAppointments([]); // مسح الجدول
+        setIsDateValid(false); // إخفاء الجدول وعرض رسالة
       } else {
         setAppointments(response.data);
+        setIsDateValid(true); // عرض الجدول إذا كان هناك بيانات
       }
     } catch (err) {
+      setAppointments([]); // مسح الجدول عند حدوث خطأ
+      setIsDateValid(false); // إخفاء الجدول وعرض رسالة
       if (err.response) {
         const status = err.response.status;
         const message = err.response.data;
-
+  
         if (status === 400) {
           toast.error(`Bad Request: ${message}`);
         } else if (status === 403) {
@@ -74,6 +112,11 @@ const BookAppointment = () => {
       }
     }
   };
+
+
+  
+
+
 
   // Fetch patients
   const fetchPatients = async () => {
@@ -94,6 +137,8 @@ const BookAppointment = () => {
       setLoading(false);
     }
   };
+
+
 
   // Book appointment
   const handleBookAppointment = async (appointmentTime) => {
@@ -119,7 +164,7 @@ const BookAppointment = () => {
   return (
     <div className="book-appointment-page">
       <DoctorSidebar />
-      <div className="content">
+      <div className="book-appointment-content">
         <h2>Book Appointment</h2>
 
         <div className="search-bar-container">
@@ -196,43 +241,67 @@ const BookAppointment = () => {
           </div>
         </div>
 
+        {/* ✅ إخفاء الجدول وعرض رسالة إذا لم تكن هناك مواعيد متاحة */}
+        {!isDateValid ? (
+          <p className="no-appointments-message">
+            No available slots for the selected date. Please choose another date.
+          </p>
+        ) : (
+          <div className="table-container">
+            <h3>Appointments</h3>
+            <table className="common-table">
+              <thead>
+                <tr>
+                  <th>Time Slot</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {appointments.map((slot, index) => {
+                  const [time, status] = slot.split(" (");
+                  const isReserved = status?.trim() === "Reserved)";
+                  return (
+                    <tr key={index}>
+                      <td>{time}</td>
+                      <td>{status?.replace(")", "")}</td>
+                      <td>
+                        <button
+                          className={`book-button action-button ${isReserved ? "reserved" : ""}`}
+                          disabled={isReserved || !selectedPatient}
+                          onClick={() => handleOpenBookingModal(time)}
+                        >
+                          {isReserved ? "Reserved" : "Book"}
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
 
-        {/* Appointment Table */}
-        <div className="table-container">
-          <h3>Appointments</h3>
-          <table className="common-table">
-            <thead>
-              <tr>
-                <th>Time Slot</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {appointments.map((slot, index) => {
-                const [time, status] = slot.split(" (");
-                const isReserved = status?.trim() === "Reserved)";
-                return (
-                  <tr key={index}>
-                    <td>{time}</td>
-                    <td>{status?.replace(")", "")}</td>
-                    <td>
-                      <button
-                        className={`book-button action-button ${
-                          isReserved ? "reserved" : ""
-                        }`}
-                        disabled={isReserved || !selectedPatient}
-                        onClick={() => handleBookAppointment(time)}
-                      >
-                        {isReserved ? "Reserved" : "Book"}
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+        {showBookingModal && bookingPatient && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Confirm Booking</h2>
+            <p>
+              Are you sure you want to book an appointment for{" "}
+              <strong>{bookingPatient.user.firstName} {bookingPatient.user.lastName}</strong> 
+              (ID: {bookingPatient.patientId}) at <strong>{bookingTime}</strong>?
+            </p>
+            <div className="modal-actions">
+              <button className="confirm-button" onClick={confirmBooking}>
+                Yes, Book
+              </button>
+              <button className="cancel-button" onClick={() => setShowBookingModal(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
         </div>
+      )}
       </div>
     </div>
   );

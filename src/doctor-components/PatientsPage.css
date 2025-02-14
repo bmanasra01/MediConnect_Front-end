@@ -1,13 +1,15 @@
 
 .patients-page {
-  display: flex;
+  display: flex; 
+  min-height: 100vh;
+  background-color: #f5fafa;
 }
 
 .patients-content {
-  width: 80%;
-  flex-grow: 1;
-  padding: 20px;
-  margin-left: calc(19% + 10px); 
+  flex-grow: 1; 
+  margin-left: 280px; 
+  padding: 20px; 
+  box-sizing: border-box;
 }
 
 h1 {

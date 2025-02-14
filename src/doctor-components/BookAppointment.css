@@ -1,11 +1,13 @@
 .book-appointment-page {
-  display: flex;
-}
+  display: flex; 
+  min-height: 100vh;
+  background-color: #f5fafa;}
 
-.content {
-  margin-left: 330px;
-  padding: 20px;
-  width: 100%;
+.book-appointment-content {
+  flex-grow: 1; 
+  margin-left: 280px; 
+  padding: 20px; 
+  box-sizing: border-box;
 }
 
 .patient-list {
@@ -30,14 +32,6 @@
   background-color: #007b7b;
   color: white;
 }
-
-/* .patient-info-box {
-  border: 2px solid #007b7b;
-  padding: 20px;
-  border-radius: 10px;
-  background-color: #f9f9f9;
-  margin-bottom: 20px;
-} */
 
 .date-selection {
   display: flex;

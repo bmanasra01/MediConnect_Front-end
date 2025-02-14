@@ -1,12 +1,15 @@
 
 .patient-profile {
-  display: flex;
+  display: flex; 
+  min-height: 100vh;
+  background-color: #f5fafa;
 }
 
 .profile-content {
-  margin-left: 330px;
-  flex: 1;
-  padding: 20px;
+  flex-grow: 1; 
+  margin-left: 280px; 
+  padding: 20px; 
+  box-sizing: border-box;
 }
 
 .profile-header {
@@ -58,12 +61,47 @@
 }
 
 
+/* .card-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+} */
+
 .card-content {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
   align-items: center;
+  gap: 10px; /* إضافة المسافة بين العناصر */
+}
+
+.info-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start; /* محاذاة العناصر للبداية */
+  align-items: center;
+  width: 48%; /* عرض ثابت لجميع العناصر */
+  margin: 5px 0; /* إضافة مسافة بين العناصر */
+}
+
+/* ✅ محاذاة الـ labels بشكل ثابت */
+.info-item label {
+  font-weight: bold;
+  width: 150px; /* عرض ثابت لكل label */
+  color: #007b7b;
+  font-size: 14px;
+  display: inline-block;
+}
+
+/* ✅ القيم في الـ cards تكون مرنة مع الـ labels */
+.info-item span {
+  font-size: 14px;
+  color: #333;
+  word-wrap: break-word;
+  flex: 1;
 }
 
 
@@ -109,112 +147,16 @@
   background-color: #007b7b;
   color: white;
   border: none;
-  border-radius: 50%; /* Makes it a circle */
+  border-radius: 50%; 
   font-size: 18px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin: 10px auto; /* Centers it */
+  margin: 10px auto; 
 }
 
 .view-more-button:hover {
   background-color: #005e5e;
 }
-
-@media (max-width: 768px) {
-  .card-content {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .xray-info,
-  .test-info,
-  .disease-info,
-  .family-history-info {
-    gap: 10px;
-  }
-  .view-buttonoo {
-    width: 100%;
-    text-align: center;
-  }
-}
-
-/* #pp-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-}
-
-.pp-modal-content {
-  background-color: #ffffff;
-  padding: 30px 40px;
-  border-radius: 10px;
-  width: 600px;
-  max-width: 90%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.3s ease-in-out;
-  display: flex;
-  flex-direction: column;
-}
-
-.pp-confirmation-form {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  row-gap: 20px;
-  column-gap: 20px;
-  margin-bottom: 20px;
-}
-
-.pp-confirmation-label {
-  font-weight: bold;
-  color: #007b7b;
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-
-.pp-confirmation-value {
-  font-size: 14px;
-  color: #333;
-}
-
-.xray-image-box {
-  width: 100%;
-  margin-top: 20px;
-  background: #f4f4f4;
-  border: 1px dashed #ccc;
-  border-radius: 10px;
-  text-align: center;
-  color: #666;
-  font-size: 16px;
-}
-
-.pp-modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-
-.pp-cancel-button {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.pp-cancel-button:hover {
-  background-color: #f5c6cb;
-}
- */
 
  #pp-modal {
   position: fixed;
@@ -241,12 +183,23 @@
   flex-direction: column;
 }
 
-/* Updated layout: grid with 2 equal columns */
-.pp-confirmation-form {
+/* .pp-confirmation-form {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  grid-template-columns: repeat(2, 1fr); 
   gap: 15px;
   margin-bottom: 20px;
+} */
+
+.pp-confirmation-form {
+  display: flex;
+  flex-direction: column; /* Stack everything in one column */
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.confirmation-item {
+  display: flex;
+  flex-direction: column;
 }
 
 .pp-confirmation-label {
@@ -264,47 +217,41 @@
   word-wrap: break-word;
 }
 
-/* Make specific rows full width */
 .confirmation-item.full-width {
   grid-column: span 2;
 }
 
-/* Media file section */
-.xray-image-box {
-  width: 100%;
-  height: auto;
-  margin-top: 20px;
-  background: #f4f4f4;
-  border: 1px dashed #ccc;
-  border-radius: 10px;
-  text-align: center;
-  color: #666;
-  font-size: 16px;
-  padding: 15px;
+.confirmation-item.full-width {
+  width: 100%; /* Ensures full width for Date & Time, Details, Result, Remarks */
 }
 
-/* Media Button */
-.view-media-button {
-  background-color: #007bff;
+/* ✅ Style for the "View File or Image" Button */
+.view-file-button {
+margin-right: 10px;  background-color: #007b7b;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 15px;
   font-size: 14px;
   font-weight: bold;
+  text-align: center;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  text-decoration: none;
   transition: background-color 0.3s ease;
-  margin-top: 10px;
-  width: 100%;
 }
 
-/* Disable button if no file exists */
-.view-media-button.disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.view-file-button:hover {
+  background-color: #0056b3;
 }
 
-/* Modal action buttons */
+/* ✅ Style if no file is available */
+.no-file-text {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+
 .pp-modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -326,10 +273,6 @@
 .pp-cancel-button:hover {
   background-color: #f5c6cb;
 }
-
-
-
-
 
 
 .add-button {
@@ -417,6 +360,101 @@
 
 .close-btn {
   display: none;
+}
+
+
+/* ✅ Overlay Background */
+.file-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* ✅ Modal Styling */
+.file-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  width: 500px;
+  max-width: 90%;
+}
+
+/* ✅ Image Preview */
+.file-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+/* ✅ Download Link */
+.download-link {
+  display: block;
+  font-size: 16px;
+  color: #007bff;
+  margin-top: 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.download-link:hover {
+  text-decoration: underline;
+}
+
+/* ✅ Close Button */
+.close-file-button {
+  background-color: red;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.close-file-button:hover {
+  background-color: darkred;
+}
+
+
+.status-active {
+  color: #28a745 !important; /* Green */
+  font-weight: bold;
+}
+
+.status-inactive {
+  color: #dc3545 !important; /* Red */
+  font-weight: bold;
+}
+
+
+
+
+@media (max-width: 768px) {
+  .card-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .xray-info,
+  .test-info,
+  .disease-info,
+  .family-history-info {
+    gap: 10px;
+  }
+  .view-buttonoo {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 

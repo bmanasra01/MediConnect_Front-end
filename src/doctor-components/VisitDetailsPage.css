@@ -1,6 +1,16 @@
-.visit-details-page .content {
-    padding: 20px;
-    background-color: #f9f9f9;
+
+.visit-details-page  {
+  display: flex; 
+  min-height: 100vh;
+  background-color: #f5fafa;
+  }
+
+
+  .visit-details-content {
+    flex-grow: 1; 
+    margin-left: 280px; 
+    padding: 20px; 
+    box-sizing: border-box;
   }
   
   .section-title {
@@ -33,7 +43,7 @@
     background-color: #f9f9f9;
   }
   
-  .pdf-button {
+  .file-button {
     background-color: #1BA7A4;
     color: #ffffff;
     border: none;
@@ -42,7 +52,7 @@
     cursor: pointer;
   }
   
-  .pdf-button:hover {
+  .file-button:hover {
     background-color: #138f8b;
   }
   

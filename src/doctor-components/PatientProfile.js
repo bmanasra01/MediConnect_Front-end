@@ -5,6 +5,8 @@ import axios from "./axiosConfig";
 import DoctorSidebar from "./DoctorSidebar"; 
 import "./PatientProfile.css";
 import "./Info-box.css";
+import "./ModalOverlay.css";
+
 
 import { FaUserCircle } from "react-icons/fa"; 
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
@@ -31,6 +33,9 @@ const PatientProfile = () => {
   const [showAllDiseases, setShowAllDiseases] = useState(false);
   const [showAllFamilyHistory, setShowAllFamilyHistory] = useState(false);
 
+  const [showAllPrescriptions, setShowAllPrescriptions] = useState(false);
+
+
   const [selectedLabTest, setSelectedLabTest] = useState(null);
 
   const [isDiseaseModalOpen, setIsDiseaseModalOpen] = useState(false);
@@ -49,12 +54,32 @@ const PatientProfile = () => {
   const [currentDoctorId, setCurrentDoctorId] = useState(null);
   const [prescriptions, setPrescriptions] = useState([]);
 
+  const [fileUrl, setFileUrl] = useState(null);
+  const [fileType, setFileType] = useState(null);
+  const [isFileModalOpen, setIsFileModalOpen] = useState(false);
 
+  // const [showDeactivationModal, setShowDeactivationModal] = useState(false);
+  // const [selectedPrescription, setSelectedPrescription] = useState(null);
+  // const [message, setMessage] = useState(""); 
+  // const [messageType, setMessageType] = useState(""); 
+
+
+  const [showDeactivationModal, setShowDeactivationModal] = useState(false);
+  const [selectedPrescription, setSelectedPrescription] = useState(null);
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
+  const [isDeactivated, setIsDeactivated] = useState(false); 
+
+
+
+
+
+  //fetch current doctor 
   useEffect(() => {
     const fetchCurrentDoctor = async () => {
       try {
         const response = await axios.get("/doctors/auth/me");
-        setCurrentDoctorId(response.data.doctorId); // احفظ ID الطبيب الحالي
+        setCurrentDoctorId(response.data.doctorId); // save current doctor id 
       } catch (error) {
         console.error("Error fetching doctor info:", error);
       }
@@ -63,38 +88,92 @@ const PatientProfile = () => {
     fetchCurrentDoctor();
   }, []);
 
-
-
+  //to fetch Prescriptions
   useEffect(() => {
     const fetchPrescriptions = async () => {
       try {
         const response = await axios.get(`/prescriptions/patient/${patientId}`);
-        setPrescriptions(Array.isArray(response.data) ? response.data : []); // ✅ تأكد من أن prescriptions هو Array
+        setPrescriptions(Array.isArray(response.data) ? response.data : []); 
+        // console.log(prescription.is_active); // Check the value in the console
       } catch (error) {
         console.error("Error fetching prescriptions:", error);
-        setPrescriptions([]); // ✅ في حالة الخطأ، نعين مصفوفة فارغة
+        setPrescriptions([]); 
       }
     };
   
     fetchPrescriptions();
   }, [patientId]);
+
+
+  //to fetch and open X-ray or Lab Test file
+  const fetchFile = async (type, id) => {
+    try {
+      const apiUrl = type === "xray"
+        ? `/x-rays/${id}/download-result`
+        : `/lab-tests/${id}/download-result`;
+  
+      const response = await axios.get(apiUrl, {
+        responseType: "blob", 
+      });
+  
+      // Detect content type
+      const contentType = response.headers["content-type"];
+      setFileType(contentType);
+  
+      // Convert blob to URL
+      const fileBlob = new Blob([response.data], { type: contentType });
+      const fileUrl = URL.createObjectURL(fileBlob);
+  
+      setFileUrl(fileUrl);
+      setIsFileModalOpen(true);
+    } catch (error) {
+      console.error("Error fetching file:", error);
+      alert("Failed to load file. Please try again.");
+    }
+  };
   
 
+//to deactive medication 
 const deactivatePrescription = async (prescriptionId) => {
   try {
     await axios.put(`/prescriptions/deactivate/${prescriptionId}`);
-    alert("Prescription deactivated successfully!");
     setPrescriptions(prescriptions.map(prescription => 
       prescription.prescriptionId === prescriptionId ? { ...prescription, active: false } : prescription
     ));
   } catch (error) {
     console.error("Error deactivating prescription:", error);
-    alert("Failed to deactivate prescription.");
+  }
+};
+
+//handle deactavate 
+// const handleDeactivate = async (prescriptionId) => {
+//   try {
+//     await deactivatePrescription(prescriptionId); // Call your existing function to deactivate
+//     setShowDeactivationModal(false); // Close the modal after successful deactivation
+//     alert("Medication deactivated successfully.");
+//   } catch (error) {
+//     console.error("Error deactivating medication:", error);
+//     alert("Failed to deactivate medication.");
+//   }
+// };
+
+const handleDeactivate = async (prescriptionId) => {
+  try {
+    await deactivatePrescription(prescriptionId); // Deactivate the prescription
+    setMessage("Medication deactivated successfully.");
+    setMessageType("success");
+    setIsDeactivated(true); // Set deactivated flag to true
+  } catch (error) {
+    console.error("Error deactivating medication:", error);
+    setMessage("Failed to deactivate medication.");
+    setMessageType("error");
   }
 };
 
 
-  // Fetch diseases list when the modal opens
+
+
+  // Fetch fami list when the modal opens
     useEffect(() => {
       if (isFamilyHistoryModalOpen) {
         const fetchDiseases = async () => {
@@ -155,12 +234,12 @@ const deactivatePrescription = async (prescriptionId) => {
         setFamilyHistory(familyHistoryResponse.data);
 
         const xrayResponse = await axios.get(`/x-rays/doctor/patient/${patientId}`, {
-          params: { page: 1, size: 10 },
+          params: { page: 1, size: 100 },
         });
         setXrays(xrayResponse.data.content);
 
         const labTestsResponse = await axios.get(`/lab-tests/doctor/patient/${patientId}`, {
-          params: { page: 1, size: 10 },
+          params: { page: 1, size: 100 },
         });
         setLabTests(labTestsResponse.data.content);
       } catch (err) {
@@ -263,7 +342,7 @@ const deactivatePrescription = async (prescriptionId) => {
   return (
     <div className="patient-profile">
       {/* Sidebar */}
-      <DoctorSidebar />
+      <DoctorSidebar/>
 
       {/* Main Content */}
       <div className="profile-content">
@@ -377,15 +456,14 @@ const deactivatePrescription = async (prescriptionId) => {
               <label><strong>Remarks:</strong></label>
               <textarea onChange={(e) => setFamilyRemarks(e.target.value)} placeholder="Optional remarks"></textarea>
 
-              {/* زر الإضافة */}
+              
               <button className="add-btn" onClick={handleAddFamilyHistory}>Add</button>
 
-              {/* زر الإلغاء */}
+             
               <button className="cancel-btn" onClick={() => setIsFamilyHistoryModalOpen(false)}>Cancel</button>
             </div>
           </div>
         )}
-
 
       <div className="family-history-list">
         {familyHistory.slice(0, showAllFamilyHistory ? familyHistory.length : 2).map((history, index) => (
@@ -411,9 +489,9 @@ const deactivatePrescription = async (prescriptionId) => {
         {xrays.slice(0, showAllXrays ? xrays.length : 2).map((xray) => (
           <div key={xray.xrayId} className="xray-card">
             <div className="card-content">
+            {/* <div className="info-item"><label>ID:</label> <span>{xray.xrayId}</span></div> */}
               <div className="info-item"><label>Title:</label> <span>{xray.title}</span></div>
               <div className="info-item"><label>Date:</label> <span>{xray.xrayDate}</span></div>
-
               {/* زر عرض التفاصيل */}
               <button className="view-buttonoo" onClick={() => fetchXrayDetails(xray.xrayId)}>View Details</button>
             </div>
@@ -432,10 +510,10 @@ const deactivatePrescription = async (prescriptionId) => {
       {labTests.slice(0, showAllLabTests ? labTests.length : 2).map((test) => (
         <div key={test.testId} className="lab-test-card">
           <div className="card-content">
+            {/* <div className="info-item"><label>ID:</label> <span>{test.testId}</span></div> */}
             <div className="info-item"><label>Title:</label> <span>{test.title}</span></div>
             <div className="info-item"><label>Date:</label> <span>{test.testDate}</span></div>
 
-            {/* زر عرض التفاصيل */}
             <button className="view-buttonoo" onClick={() => fetchLabTestDetails(test.testId)}>View Details</button>
           </div>
         </div>
@@ -449,85 +527,206 @@ const deactivatePrescription = async (prescriptionId) => {
 
     <h1>Prescriptions</h1>
     <div className="prescriptions-list">
-      {prescriptions.length > 0 ? (prescriptions.map((prescription) => (
-          <div key={prescription.prescriptionId} className="prescription-card">
-            <div className="card-content">
-              <div className="info-item"><label>Medication:</label> <span>{prescription.medication.scientificName}</span></div>
-              <div className="info-item"><label>International Name:</label> <span>{prescription.medication.internationalName}</span></div>
-              <div className="info-item"><label>Dose Type:</label> <span>{prescription.doseType}</span></div>
-              <div className="info-item"><label>Dose Amount:</label> <span>{prescription.doseAmount}</span></div>
-              <div className="info-item"><label>Start Date:</label> <span>{prescription.startDate}</span></div>
-              <div className="info-item"><label>Total Days:</label> <span>{prescription.totalDays}</span></div>
-
-              {/* زر Deactivate يظهر فقط إذا كان الطبيب الحالي هو الذي أضاف الدواء */}
-              {currentDoctorId === prescription.doctorId && prescription.active && (
-                <button className="deactivate-btn" onClick={() => deactivatePrescription(prescription.prescriptionId)}>
-                  Deactivate
-                </button>
-              )}
+      {prescriptions.slice(0, showAllPrescriptions ? prescriptions.length : 2).map((prescription) => (
+        <div key={prescription.prescriptionId} className="prescription-card">
+          <div className="card-content">
+            <div className="info-item">
+              <label>Medication:</label>
+              <span>{prescription.medication.scientificName}</span>
             </div>
+            <div className="info-item">
+              <label>International Name:</label>
+              <span>{prescription.medication.internationalName}</span>
+            </div>
+            <div className="info-item">
+              <label>Dose Type:</label>
+              <span>{prescription.doseType}</span>
+            </div>
+            <div className="info-item">
+              <label>Dose Amount:</label>
+              <span>{prescription.doseAmount}</span>
+            </div>
+            <div className="info-item">
+              <label>Start Date:</label>
+              <span>{prescription.startDate}</span>
+            </div>
+            <div className="info-item">
+              <label>Total Days:</label>
+              <span>{prescription.totalDays}</span>
+            </div>
+            <div className="info-item">
+              <label>Status:</label>
+              <span className={prescription.active ? "status-active" : "status-inactive"}>
+                {prescription.active ? "Active" : "Stopped"}
+              </span>
+            </div>
+
+            {/* Show Deactivate button if doctor is the owner */}
+            {currentDoctorId === prescription.doctorId && prescription.active && (
+              <button
+                className="deactivate-btn"
+                onClick={() => {
+                  setSelectedPrescription(prescription);
+                  setShowDeactivationModal(true);
+                }}
+              >
+                Deactivate
+              </button>
+            )}
           </div>
-        ))
-      ) : (
-        <p></p>
+        </div>
+      ))}
+      {prescriptions.length > 2 && (
+        <button className="view-more-button" onClick={() => setShowAllPrescriptions(!showAllPrescriptions)}>
+          {showAllPrescriptions ? <FaChevronUp /> : <FaChevronDown />}
+        </button>
       )}
     </div>
 
-      {(isModalOpen && (selectedXray || selectedLabTest)) && (
-        <div id="pp-modal" className="pp-modal">
-          <div className="pp-modal-content">
-            <h3>{selectedXray ? "X-ray Details" : "Lab Test Details"}</h3>
-            <div className="pp-confirmation-form">
-              <div className="confirmation-item">
-                <label className="pp-confirmation-label">Date:</label>
-                <span className="pp-confirmation-value">
-                  {selectedXray ? selectedXray.xrayDate : selectedLabTest.testDate || "N/A"}
-                </span>
-              </div>
-              <div className="confirmation-item">
-                <label className="pp-confirmation-label">Time:</label>
-                <span className="pp-confirmation-value">
-                  {selectedXray ? selectedXray.xrayTime : selectedLabTest.testTime || "N/A"}
-                </span>
-              </div>
-              <div className="confirmation-item">
-                <label className="pp-confirmation-label">Details:</label>
-                <span className="pp-confirmation-value">
-                  {selectedXray ? selectedXray.xrayDetails : selectedLabTest.testDetails || "N/A"}
-                </span>
-              </div>
-              <div className="confirmation-item">
-                <label className="pp-confirmation-label">Result:</label>
-                <span className="pp-confirmation-value">
-                  {selectedXray ? selectedXray.xrayResult : selectedLabTest.testResult || "N/A"}
-                </span>
-              </div>
-              <div className="confirmation-item">
-                <label className="pp-confirmation-label">Remarks:</label>
-                <span className="pp-confirmation-value">
-                  {selectedXray ? selectedXray.remark : selectedLabTest.remark || "N/A"}
-                </span>
-              </div>
+
+      {/* details modal */}
+    {(isModalOpen && (selectedXray || selectedLabTest)) && (
+      <div id="pp-modal" className="pp-modal">
+        <div className="pp-modal-content">
+          <h3>{selectedXray ? "X-ray Details" : "Lab Test Details"}</h3>
+          
+          <div className="pp-confirmation-form">
+            <div className="confirmation-item full-width">
+              <label className="pp-confirmation-label">Date & Time:</label>
+              <span className="pp-confirmation-value">
+                {selectedXray ? `${selectedXray.xrayDate} - ${selectedXray.xrayTime}` 
+                              : `${selectedLabTest.testDate} - ${selectedLabTest.testTime}` || "N/A"}
+              </span>
             </div>
 
-            <div className="xray-image-box">
-              <p>Placeholder for {selectedXray ? "X-ray" : "Lab Test"} image or PDF</p>
+            <div className="confirmation-item full-width">
+              <label className="pp-confirmation-label">Details:</label>
+              <span className="pp-confirmation-value">
+                {selectedXray ? selectedXray.xrayDetails : selectedLabTest.testDetails || "N/A"}
+              </span>
             </div>
-            <div className="pp-modal-actions">
-              <button className="pp-cancel-button" onClick={closeModal}>
-                Close
-              </button>
+
+            <div className="confirmation-item full-width">
+              <label className="pp-confirmation-label">Result:</label>
+              <span className="pp-confirmation-value">
+                {selectedXray ? selectedXray.xrayResult : selectedLabTest.testResult || "N/A"}
+              </span>
             </div>
+
+            <div className="confirmation-item full-width">
+              <label className="pp-confirmation-label">Remarks:</label>
+              <span className="pp-confirmation-value">
+                {selectedXray ? selectedXray.remark : selectedLabTest.remark || "N/A"}
+              </span>
+            </div>
+          </div>
+
+          <div className="pp-modal-actions">
+          {selectedXray?.xrayId || selectedLabTest?.testId ? (
+            <button
+              className="view-file-button"
+              onClick={() =>
+                fetchFile(
+                  selectedXray ? "xray" : "lab-test",
+                  selectedXray ? selectedXray.xrayId : selectedLabTest.testId
+                )
+              }
+            >
+              View File or Image
+            </button>
+          ) : (
+            <p className="no-file-text">No file available</p>
+          )}
+
+          <button className="pp-cancel-button" onClick={closeModal}>
+            Close
+          </button>
+        </div>
+
+        {/*image or file modal*/}
+        {isFileModalOpen && (
+        <div className="file-overlay">
+          <div className="file-modal">
+            <h3>File Preview</h3>
+            
+            {fileUrl && fileType ? (
+              <>
+                {fileType.startsWith("image") ? (
+                  <img src={fileUrl} alt="Medical File" className="file-image" />
+                ) : (
+                  <a href={fileUrl} download="MedicalFile" className="download-link">
+                    Download File
+                  </a>
+                )}
+              </>
+            ) : (
+              <p className="no-file-text">File cannot be displayed.</p>
+            )}
+
+            <button className="close-file-button" onClick={() => setIsFileModalOpen(false)}>
+              Close
+            </button>
           </div>
         </div>
       )}
+        </div>
+      </div>
+    )}
 
+    {/* Confirmation Modal for Deactivating Medication */}
+    {showDeactivationModal && selectedPrescription && (
+      <div className="modal-overlay">
+        <div className="modal">
+          {/* Close Button (X) */}
+          <button
+            className="close-modal-btn"
+            onClick={() => setShowDeactivationModal(false)}
+          >
+            X
+          </button>
 
+          <h2>Confirm Deactivation</h2>
+          
+          {/* Display the message */}
+          {message && (
+            <div
+              className={`modal-message ${messageType === "success" ? "success-message" : "error-message"}`}
+            >
+              {message}
+            </div>
+          )}
+
+          <p>
+            Are you sure you want to deactivate the medication{" "}
+            <strong>{selectedPrescription.medication.scientificName}</strong> for{" "}
+            <strong>{selectedPrescription.medication.internationalName}</strong>?
+          </p>
+
+          <div className="modal-actions">
+            {/* Hide this button once the medication is deactivated */}
+            {!isDeactivated && (
+              <button
+                className="confirm-button"
+                onClick={() => handleDeactivate(selectedPrescription.prescriptionId)}
+              >
+                Yes, Deactivate
+              </button>
+            )}
+            
+            <button
+              className="cancel-button"
+              onClick={() => setShowDeactivationModal(false)}
+            >
+              No, Go Back
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
       </div>
     </div>
   );
 };
-
 export default PatientProfile;
 
 

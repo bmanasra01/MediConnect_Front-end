@@ -267,30 +267,7 @@ const sendMessage = async (file, audioData = null, audioType = null) => {
             <div className="chat-header">
             <h3>Chat with {selectedChat?.name}</h3>
             </div>
-            {/* <div className="messages">
-              {messages.map((msg, index) => (
-                <div key={index} className={`message ${msg.senderID === userID ? "sent" : "received"}`}>
-                    {msg.fileData ? (
-                    msg.fileType?.startsWith("image/") ? (
-                        <img src={msg.fileData} alt="Sent Image" className="chat-image" />
-                    ) : msg.fileType?.startsWith("audio/") ? (
-                        <audio controls>
-                        <source src={msg.fileData} type={msg.fileType} />
-                        Your browser does not support the audio element.
-                        </audio>
-                    ) : (
-                        <a href={msg.fileData} download>
-                        📎 Download File
-                        </a>
-                    )
-                    ) : (
-                    <p>{msg.message}</p>
-                   )}
-                <span className="timestamp">{new Date(msg.timestamp.toDate()).toLocaleTimeString()}</span>
-                </div>
-              ))}
-            </div> */}
-
+           
             <div className="messages">
             {messages.map((msg, index) => (
                 <div key={index} className={`message ${msg.senderID === userID ? "sent" : "received"}`}>
@@ -321,7 +298,6 @@ const sendMessage = async (file, audioData = null, audioType = null) => {
             </div>
 
             {/*message popup*/}
-           {/* ✅ Popup عند الضغط على صورة */}
             {selectedImage && (
             <div className="image-popup">
                 <div className="image-popup-content">
@@ -331,9 +307,6 @@ const sendMessage = async (file, audioData = null, audioType = null) => {
             </div>
             )}
 
-
-
-           
             <div className="message-input">
             <input
                 type="text"

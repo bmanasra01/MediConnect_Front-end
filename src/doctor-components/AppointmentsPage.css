@@ -1,37 +1,18 @@
-.appointments-page {
-  display: flex;
+.appointments-page1 {
+  display: flex; 
+  min-height: 100vh;
+  background-color: #f5fafa;}
+
+.appointments-content {
+  flex-grow: 1; 
+  margin-left: 280px; 
+  padding: 20px; 
+  box-sizing: border-box;
 }
 
-.content {
-  flex-grow: 1;
-  padding: 20px;
-}
-
-/* .filters {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007b7b;
   margin-bottom: 20px;
 }
-
-.search-bar,
-.date-picker {
-  padding: 8px 10px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-} */
-
-
-/* .apply-button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.apply-button:hover {
-  background-color: #0056b3;
-} */

@@ -52,19 +52,19 @@ const DoctorVisitsPage = () => {
   return (
     <div className="doctor-visits-page">
       <Sidebar />
-      <div className="content">
+      <div className="doctor-visits-content">
         <h1 className="visits-header">Doctor Visits</h1>
 
         {/* Header Section */}
         <div className="visits-header-section">
-          <div className="visits-total-box">
+          {/* <div className="visits-total-box">
             <h3>Visits</h3>
             <p>{totalVisits}</p>
             <div className="percentage">
               <span>▲</span> <span>+5.11%</span>
             </div>
             <FaClipboardList className="total-icon" />
-          </div>
+          </div> */}
 
           <div className="filters-container">
             <input

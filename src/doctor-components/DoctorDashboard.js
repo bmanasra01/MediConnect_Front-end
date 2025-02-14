@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "./DoctorSidebar";
+import DoctorSidebar from "./DoctorSidebar";
 import axios from "./axiosConfig";
 import "./DoctorDashboard.css";
 import "./tables.css";
 import "./ModalOverlay.css";
-
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarCheck, faUsers, faClock } from "@fortawesome/free-solid-svg-icons";
 
@@ -97,7 +95,7 @@ const DoctorDashboard = () => {
 
   return (
     <div className="doctor-dashboard">
-      <Sidebar />
+      <DoctorSidebar/>
 
       <div className="dashboard-content">
       <div className="welcome-container">
@@ -220,7 +218,7 @@ const DoctorDashboard = () => {
             </div>
           </div>
         </div>
-      )}
+      )} 
     </div>
   );
 };

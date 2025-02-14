@@ -1,30 +1,34 @@
-.sidebar {
-  width: 17%;
+/* ✅ تصميم الـ Sidebar الأساسي */
+.DoctorSidebar {
+  width: 250px; /* العرض الطبيعي */
   height: 100vh;
-  background-color: #f5fafa;
+  background-color: #e9fdfd;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
   position: fixed;
-  top: 0;
   left: 0;
-  z-index: 100;
+  top: 0;
+  overflow-y: auto;
+  transition: all 0.3s ease-in-out;
 }
 
-.sidebar-logo img {
+
+
+.DoctorSidebar-logo img {
   width: 150px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
-.sidebar-menu,
-.sidebar-bottom-menu {
+.DoctorSidebar-menu,
+.DoctorSidebar-bottom-menu {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.sidebar-item {
+.DoctorSidebar-item {
   display: flex;
   align-items: center;
   padding: 12px 16px;
@@ -33,46 +37,125 @@
   color: #5a5a5a;
   cursor: pointer;
   border-radius: 8px;
-  text-decoration: none; 
+  text-decoration: none;
   background-color: transparent;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-.sidebar-item.active {
-  background-color: #e0f7f8; 
+.DoctorSidebar-item.active {
+  background-color: #e0f7f8;
   color: #007b7b;
 }
 
-.sidebar-item:hover {
-  background-color: #d0f0f1; 
+.DoctorSidebar-item:hover {
+  background-color: #d0f0f1;
   color: #005f5f;
 }
 
-.sidebar-icon {
-  font-size: 1.2rem;
+
+.profile-icon {
+  font-size: 50px; /* حجم الأيقونة */
+  color: #007b7b; /* لون الأيقونة */
   margin-right: 10px;
 }
 
-.sidebar-profile {
+
+.DoctorSidebar-profile {
   display: flex;
-  align-items: center;
-  margin-top: 20px;
+  align-items: center; /* يجعل العناصر في نفس الخط */
+  gap: 10px; /* يضيف مسافة بين الأيقونة والاسم */
+  min-height: 60px; /* تأكد من أن الارتفاع كافي للأيقونة */
+  border-top: 1px solid rgba(0, 0, 0, 0.1); /* خط فاصل */
+  margin-top: 0px;
+  padding-top: 15px;
 }
 
-.profile-image {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 10px;
+
+/* ✅ تنسيق الأيقونة */
+.profile-icon {
+  font-size: 45px; /* تكبير الأيقونة */
+  color: #007b7b; /* لون الأيقونة */
+  margin-right: 10px; /* يضيف مسافة بين الأيقونة والاسم */
+  flex-shrink: 0; /* يمنع الأيقونة من أن تصبح أصغر */
+}
+
+
+/* ✅ ضبط تنسيق الاسم والمسمى الوظيفي */
+.profile-info {
+  display: flex;
+  flex-direction: column; /* يبقى الاسم والمسمى الوظيفي عمودي */
 }
 
 .profile-info span {
-  display: block;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #5a5a5a;
 }
 
 .profile-role {
+  font-size: 0.9rem;
   color: #a9a9a9;
 }
 
+
+
+
+/* ✅ **Responsive Sidebar for small screens** */
+@media (max-width: 768px) {
+  .DoctorSidebar {
+    width: 70px; /* Sidebar صغير على الموبايل */
+    padding: 10px;
+  }
+
+  .DoctorSidebar-logo img {
+    width: 50px;
+  }
+
+  .DoctorSidebar-item {
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .DoctorSidebar-item span {
+    display: none; /* يخفي النصوص */
+  }
+
+  .DoctorSidebar-icon {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+}
+
+/* ✅ زر التحكم بإخفاء وإظهار القائمة */
+.toggle-button {
+  display: none;
+  position: absolute;
+  top: 20px;
+  right: -40px;
+  background-color: #007b7b;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .toggle-button {
+    display: block;
+  }
+}
+
+.DoctorSidebar-item a {
+  text-decoration: none;
+  display: flex; 
+  align-items: center; 
+  color: inherit; 
+  width: 100%; 
+}
+
+/* ✅ إضافة خط فاصل بين القائمتين */
+.DoctorSidebar-bottom-menu {
+  border-top: 1px solid rgba(0, 0, 0, 0.1); /* خط خفيف */
+  margin-top: 10px; /* يضيف مسافة بين القوائم */
+  padding-top: 10px; /* يضيف مسافة بعد الخط */
+}

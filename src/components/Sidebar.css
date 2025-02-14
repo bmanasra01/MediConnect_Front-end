@@ -1,4 +1,3 @@
-/* Sidebar container */
 .sidebar {
   width: 20%;
   height: 100vh;
@@ -8,12 +7,11 @@
   justify-content: space-between;
   padding: 20px;
   position: fixed;
-  overflow-y: auto; /* Enables vertical scrolling */
-  scrollbar-width: thin; /* Makes the scrollbar less intrusive */
-  scrollbar-color: #d6d6d6 #f5fafa; /* Custom scrollbar colors */
+  overflow-y: auto; 
+  scrollbar-width: thin; 
+  scrollbar-color: #d6d6d6 #f5fafa; 
 }
 
-/* Style the scrollbar for modern browsers */
 .sidebar::-webkit-scrollbar {
   width: 8px;
 }
@@ -27,13 +25,11 @@
   background-color: #f5fafa;
 }
 
-/* Logo styling */
 .sidebar-logo img {
   width: 120px;
   margin-bottom: 20px;
 }
 
-/* Top menu styling */
 .sidebar-menu {
   list-style-type: none;
   padding: 0;
@@ -43,7 +39,6 @@
   flex-grow: 1;
 }
 
-/* Sidebar item styling */
 .sidebar-item {
   display: flex;
   align-items: center;
@@ -55,22 +50,19 @@
   transition: background-color 0.2s, color 0.2s;
 }
 
-/* Remove underline from links */
 .sidebar-item a {
-  text-decoration: none; /* Removes the underline */
-  display: flex; /* Ensures the icon and text align correctly */
-  align-items: center; /* Vertically center content */
-  color: inherit; /* Inherits the color from the parent */
-  width: 100%; /* Makes the link span the full width */
+  text-decoration: none; 
+  display: flex; 
+  align-items: center; 
+  color: inherit; 
+  width: 100%; 
 }
 
-/* Active item styling */
 .sidebar-item.active {
   background-color: #e0f7f8;
   color: #00a8a8;
 }
 
-/* Hover effect */
 .sidebar-item:hover {
   background-color: #e0f7f8;
   color: #00a8a8;
@@ -81,12 +73,12 @@
   font-size: 1.2rem;
 }
 
-/* Bottom menu styling */
 .sidebar-menu-bottom {
   margin-bottom: 10px;
 }
 
-/* Profile section styling */
+
+
 .sidebar-profile {
   display: flex;
   align-items: center;

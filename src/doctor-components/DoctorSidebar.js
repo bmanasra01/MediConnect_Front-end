@@ -2,14 +2,11 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../assets/mediconnect.png';
 import './DoctorSidebar.css'; 
-
+import { FaUserMd } from 'react-icons/fa'; 
 import {
   FaCalendarAlt,
-  FaUserPlus,
   FaClock,
-  FaFileAlt,
   FaComments,
-  FaBell,
   FaCog,
   FaUserInjured,
 } from 'react-icons/fa';
@@ -18,54 +15,47 @@ const DoctorSidebar = () => {
   const location = useLocation();
 
   return (
-    <div className="sidebar">
+    <div className="DoctorSidebar">
     {/* Logo */}
-    <div className="sidebar-logo">
+    <div className="DoctorSidebar-logo">
         <Link to="/doctor-dashboard">
           <img src={logo} alt="MediConnect Logo" />
         </Link>
       </div>
 
       {/* Navigation Links */}
-      <ul className="sidebar-menu">
-        <li className={`sidebar-item ${location.pathname === '/appointments' ? 'active' : ''}`}>
+      <ul className="DoctorSidebar-menu">
+        <li className={`DoctorSidebar-item ${location.pathname === '/appointments' ? 'active' : ''}`}>
           <Link to="/appointments">
-            <FaCalendarAlt className="sidebar-icon" />
+            <FaCalendarAlt className="DoctorSidebar-icon" />
             <span>Appointment</span>
           </Link>
         </li>
         
-              <li className={`sidebar-item ${location.pathname === '/bappointments' ? 'active' : ''}`}>
+              <li className={`DoctorSidebar-item ${location.pathname === '/bappointments' ? 'active' : ''}`}>
         <Link to="/bappointments">
-          <FaClock className="sidebar-icon" />
+          <FaClock className="DoctorSidebar-icon" />
           <span>Book Appointment</span>
         </Link>
       </li>
 
-        <li className={`sidebar-item ${location.pathname === '/documents' ? 'active' : ''}`}>
-          <Link to="/documents">
-            <FaFileAlt className="sidebar-icon" />
-            <span>Documents</span>
-          </Link>
-        </li>
-
-        <li className={`sidebar-item ${location.pathname === '/patients' ? 'active' : ''}`}>
+        <li className={`DoctorSidebar-item ${location.pathname === '/patients' ? 'active' : ''}`}>
           <Link to="/patients">
-            <FaUserInjured className="sidebar-icon" />
+            <FaUserInjured className="DoctorSidebar-icon" />
             <span>Patients</span>
           </Link>
         </li>
 
-        <li className={`sidebar-item ${location.pathname === '/chat' ? 'active' : ''}`}>
+        <li className={`DoctorSidebar-item ${location.pathname === '/chat' ? 'active' : ''}`}>
           <Link to="/chat">
-            <FaComments className="sidebar-icon" />
+            <FaComments className="DoctorSidebar-icon" />
             <span>Chat</span>
           </Link>
         </li>
 
-        <li className={`sidebar-item ${ location.pathname === "/doctor-visits" ? "active" : "" }`}>
+        <li className={`DoctorSidebar-item ${ location.pathname === "/doctor-visits" ? "active" : "" }`}>
           <Link to="/doctor-visits">
-            <FaCalendarAlt className="sidebar-icon" /> {/* Change icon if needed */}
+            <FaCalendarAlt className="DoctorSidebar-icon" /> {/* Change icon if needed */}
             <span>Doctor Visits</span>
           </Link>
         </li>
@@ -73,33 +63,18 @@ const DoctorSidebar = () => {
       </ul>
 
       {/* Bottom Links */}
-      <ul className="sidebar-bottom-menu">
-        <li className={`sidebar-item ${location.pathname === '/notifications' ? 'active' : ''}`}>
-          <Link to="/notifications">
-            <FaBell className="sidebar-icon" />
-            <span>Notification</span>
-          </Link>
-        </li>
-        {/* <li className={`sidebar-item ${location.pathname === '/settings' ? 'active' : ''}`}>
-          <Link to="/settings">
-            <FaCog className="sidebar-icon" />
-            <span>Settings</span>
-          </Link>
-        </li> */}
+      <ul className="DoctorSidebar-bottom-menu">
 
-        <li className={`sidebar-item ${location.pathname === '/settings/schedule' ? 'active' : ''}`}>
+        <li className={`DoctorSidebar-item ${location.pathname === '/settings/schedule' ? 'active' : ''}`}>
           <Link to="/settings/schedule">
-            <FaCog className="sidebar-icon" />
+            <FaCog className="DoctorSidebar-icon" />
             <span>Schedule Settings</span>
           </Link>
         </li>
 
-
-
-
-        <li className="sidebar-item">
+        <li className="DoctorSidebar-item">
         <Link to="/">
-          <FaCog className="sidebar-icon" />
+          <FaCog className="DoctorSidebar-icon" />
           <span>LogOut</span>
         </Link>
       </li>
@@ -107,12 +82,8 @@ const DoctorSidebar = () => {
       </ul>
 
       {/* Doctor Profile */}
-      <div className="sidebar-profile">
-        <img
-          src="/path/to/profile/image.png"
-          alt="Doctor Profile"
-          className="profile-image"
-        />
+      <div className="DoctorSidebar-profile">
+      <FaUserMd className="profile-icon" />
         <div className="profile-info">
           <span>Dr. James Martin</span>
           <span className="profile-role">Cardiac Surgeon</span>

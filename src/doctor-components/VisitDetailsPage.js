@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Sidebar from "./DoctorSidebar";
+import DoctorSidebar from "./DoctorSidebar";
 import axios from "./axiosConfig";
 import "./VisitDetailsPage.css";
 import { FaUserCircle } from "react-icons/fa"; 
@@ -12,6 +12,36 @@ const VisitDetailsPage = () => {
   const [xRays, setXRays] = useState([]);
   const [labTests, setLabTests] = useState([]);
   const [procedures, setProcedures] = useState([]);
+  const [prescriptions, setPrescriptions] = useState([]);
+  const [fileUrl, setFileUrl] = useState(null);
+  const [isFileOverlayOpen, setIsFileOverlayOpen] = useState(false);
+
+  const handleViewFile = async (fileApiUrl) => {
+    try {
+      const response = await axios.get(fileApiUrl, { responseType: "blob" });
+  
+      const file = window.URL.createObjectURL(new Blob([response.data]));
+      const fileType = response.headers["content-type"];
+  
+      if (fileType.startsWith("image/")) {
+        setFileUrl(file); // Open image in overlay
+        setIsFileOverlayOpen(true);
+      } else {
+        // Download non-image files
+        const link = document.createElement("a");
+        link.href = file;
+        link.setAttribute("download", "file");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    } catch (error) {
+      console.error("Error fetching file:", error);
+    }
+  };
+  
+
+
 
   // Fetch Visit Details
   useEffect(() => {
@@ -83,13 +113,49 @@ const VisitDetailsPage = () => {
     fetchProcedures();
   }, [visitID]);
 
+  // Fetch prescriptions for the visit
+  // useEffect(() => {
+  //   const fetchPrescriptions = async () => {
+  //     try {
+  //       const patientID = visitDetails?.patient.patientId;
+  //       if (patientID) {
+  //         const response = await axios.get(
+  //           `/prescriptions/patient/${patientID}/visit/${visitID}`
+  //         );
+  //         setPrescriptions(response.data);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching prescriptions:", error);
+  //     }
+  //   };
+
+  //   if (visitDetails) fetchPrescriptions();
+  // }, [visitDetails, visitID]);
+
+  useEffect(() => {
+    const fetchPrescriptions = async () => {
+      try {
+        const patientID = visitDetails?.patient.patientId;
+        if (patientID) {
+          const response = await axios.get(`/prescriptions/patient/${patientID}/visit/${visitID}`);
+          setPrescriptions(Array.isArray(response.data) ? response.data : []); // Ensure it's an array
+        }
+      } catch (error) {
+        console.error("Error fetching prescriptions:", error);
+        setPrescriptions([]); // Set an empty array in case of error
+      }
+    };
+  
+    if (visitDetails) fetchPrescriptions();
+  }, [visitDetails, visitID]);
+  
+
   if (!visitDetails) return <p>Loading...</p>;
 
   return (
     <div className="visit-details-page">
-      <Sidebar />
-
-      <div className="content">
+      <DoctorSidebar/>
+      <div className="visit-details-content">
         {/* Personal Information */}
         <h3 className="section-title">Personal Information</h3>
         {/* Patient Personal Information Box */}
@@ -124,7 +190,7 @@ const VisitDetailsPage = () => {
         </div>
 
         {/* X-rays Section */}
-        <h3 className="section-title">X-ray Information</h3>
+        {/* <h3 className="section-title">X-ray Information</h3>
         <div className="info-box">
           {xRays.length > 0 ? (
             xRays.map((xray) => (
@@ -140,10 +206,34 @@ const VisitDetailsPage = () => {
           ) : (
             <p>No X-rays available.</p>
           )}
+        </div> */}
+
+        <h3 className="section-title">X-ray Information</h3>
+        <div className="info-box">
+          {xRays.length > 0 ? (
+            xRays.map((xray) => (
+              <div key={xray.xrayId} className="item-box">
+                <p><strong>Title:</strong> {xray.title}</p>
+                <p><strong>Date/Time:</strong> {xray.xrayDate} / {xray.xrayTime}</p>
+                <p><strong>Details:</strong> {xray.xrayDetails}</p>
+                <p><strong>Result:</strong> {xray.xrayResult || "N/A"}</p>
+                <p><strong>Remark:</strong> {xray.remark || "N/A"}</p>
+                <button 
+                  className="file-button" 
+                  onClick={() => handleViewFile(`/x-rays/${xray.xrayId}/download-result`)}
+                >
+                  View File
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>No X-rays this visit .</p>
+          )}
         </div>
 
+
         {/* Lab Tests Section */}
-        <h3 className="section-title">Lab Test Information</h3>
+        {/* <h3 className="section-title">Lab Test Information</h3>
         <div className="info-box">
           {labTests.length > 0 ? (
             labTests.map((test) => (
@@ -159,7 +249,38 @@ const VisitDetailsPage = () => {
           ) : (
             <p>No lab tests available.</p>
           )}
+        </div> */}
+
+        <h3 className="section-title">Lab Test Information</h3>
+        <div className="info-box">
+          {labTests.length > 0 ? (
+            labTests.map((test) => (
+              <div key={test.testId} className="item-box">
+                <p><strong>Title:</strong> {test.title}</p>
+                <p><strong>Date/Time:</strong> {test.testDate} / {test.testTime}</p>
+                <p><strong>Details:</strong> {test.testDetails}</p>
+                <p><strong>Result:</strong> {test.testResult || "N/A"}</p>
+                <p><strong>Remark:</strong> {test.remark || "N/A"}</p>
+                <button 
+                  className="file-button" 
+                  onClick={() => handleViewFile(`/lab-tests/${test.testId}/download-result`)}
+                >
+                  View File
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>No lab tests in this visit .</p>
+          )}
         </div>
+
+        {isFileOverlayOpen && (
+        <div className="file-overlay" onClick={() => setIsFileOverlayOpen(false)}>
+          <div className="file-content">
+            <img src={fileUrl} alt="File Preview" className="file-image" />
+          </div>
+        </div>
+      )}
 
         {/* Procedures Section */}
         <h3 className="section-title">Procedure Information</h3>
@@ -171,13 +292,38 @@ const VisitDetailsPage = () => {
                 <p><strong>Date/Time:</strong> {procedure.procedureDate} / {procedure.procedureTime}</p>
                 <p><strong>Description:</strong> {procedure.procedureMaster?.procedure_description || "N/A"}</p>
                 <p><strong>Remarks:</strong> {procedure.remarks || "N/A"}</p>
-                <button className="pdf-button">View PDF</button>
               </div>
             ))
           ) : (
-            <p>No procedures available.</p>
+            <p>No procedures in this visit .</p>
           )}
         </div>
+
+        {/* Prescriptions Section */}
+        <h3 className="section-title">Prescriptions</h3>
+        <div className="info-box">
+          {prescriptions.length > 0 ? (
+            prescriptions.map((prescription) => (
+              <div key={prescription.prescriptionId} className="item-box">
+                <p><strong>Medication:</strong> {prescription.medication.scientificName}</p>
+                <p><strong>International Name:</strong> {prescription.medication.internationalName}</p>
+                <p><strong>Dose Type:</strong> {prescription.doseType}</p>
+                <p><strong>Dose Amount:</strong> {prescription.doseAmount}</p>
+                <p><strong>Start Date:</strong> {prescription.startDate}</p>
+                <p><strong>Total Days:</strong> {prescription.totalDays}</p>
+                <p>
+                  <strong>Status:</strong> 
+                  <span className={prescription.active ? "status-active" : "status-inactive"}>
+                    {prescription.active ? "Active" : "Stopped"}
+                  </span>
+                </p>
+              </div>
+            ))
+          ) : (
+            <p>No prescriptions in this visit .</p>
+          )}
+        </div>
+
       </div>
     </div>
   );

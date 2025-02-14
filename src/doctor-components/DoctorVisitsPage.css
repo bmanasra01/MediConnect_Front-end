@@ -1,13 +1,14 @@
 .doctor-visits-page {
-  display: flex;
-  font-family: Arial, sans-serif;
+  display: flex; 
+  min-height: 100vh;
+  background-color: #f5fafa;
 }
 
-.content {
-  flex: 1;
-  padding: 20px;
-  margin-left: 19%;
-  background-color: #ffffff;
+.doctor-visits-content {
+  flex-grow: 1; 
+  margin-left: 280px; 
+  padding: 20px; 
+  box-sizing: border-box;
 }
 
 .visits-header {

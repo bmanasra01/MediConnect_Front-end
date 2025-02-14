@@ -2,8 +2,22 @@ import React, { useState } from "react";
 import axios from "./axiosConfig";
 import DoctorSidebar from "./DoctorSidebar"; 
 import "./AddPatientPage.css"; 
+import "./UniqueModal.css"; 
+
+
+import { auth, createUserWithEmailAndPassword } from "../firebaseConfig"; // Firebase Authentication
+import { getFirestore, doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
+
+
+const db = getFirestore(); 
 
 const AddPatientPage = () => {
+  const [successMessage, setSuccessMessage] = useState("");
+
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+
   const [formData, setFormData] = useState({
     patientId: "",
     firstName: "",
@@ -27,6 +41,8 @@ const AddPatientPage = () => {
   };
 
   const handleAddPatient = async () => {
+    setErrorMessage("");
+  
     const {
       patientId,
       firstName,
@@ -41,37 +57,108 @@ const AddPatientPage = () => {
       weight,
       remarks,
     } = formData;
-
-    const patientData = {
-      patientId: Number(patientId),
-      user: {
-        userID: Number(patientId),
-        email,
-        password,
-        firstName,
-        lastName,
-        phone,
-        dateOfBirth,
-      },
-      bloodType: bloodType || null,
-      gender: gender || null,
-      dateOfBirth,
-      height: height ? Number(height) : null,
-      weight: weight ? Number(weight) : null,
-      remarks: remarks || null,
-    };
-
+  
+    let firebaseUID = null; // لتخزين معرف المستخدم في Firebase
+  
     try {
-      const response = await axios.post("/doctors/patients/addPatient", patientData);
-      console.log("Patient added successfully:", response.data);
-      alert("Patient added successfully!");
-    } catch (error) {
-      console.error("Error adding patient:", error);
-      alert("Failed to add patient. Please try again.");
+      // ✅ 1. إنشاء المريض في Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("Patient created in Firebase:", userCredential.user);
+      firebaseUID = userCredential.user.uid;
+  
+      // ✅ 2. تخزين بيانات المريض في Firestore
+      const patientFirestoreData = {
+        uid: firebaseUID,
+        patientId: patientId,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone,
+        dateOfBirth: dateOfBirth,
+        gender: gender,
+        bloodType: bloodType || null,
+        height: height ? Number(height) : null,
+        weight: weight ? Number(weight) : null,
+        remarks: remarks || null,
+        role: "PATIENT",
+      };
+  
+      await setDoc(doc(db, "users", firebaseUID), patientFirestoreData);
+      console.log("Patient added to Firestore users collection");
+  
+      // ✅ 3. إرسال بيانات المريض إلى Spring Boot
+      const patientData = {
+        patientId: Number(patientId),
+        user: {
+          userID: Number(patientId),
+          email,
+          password,
+          firstName,
+          lastName,
+          phone,
+          dateOfBirth,
+        },
+        bloodType: bloodType || null,
+        gender: gender || null,
+        dateOfBirth,
+        height: height ? Number(height) : null,
+        weight: weight ? Number(weight) : null,
+        remarks: remarks || null,
+      };
+  
+      const response = await axios.post("/doctors/patients/addPatient", patientData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // ✅ أضف التوكن
+        },
+      });
+  
+      console.log("Patient added successfully to backend:", response.data);
+      setSuccessMessage("Patient added successfully!");
+  
+      // ✅ 4. إعادة تعيين الفورم
+      setFormData({
+        patientId: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        password: "",
+        dateOfBirth: "",
+        gender: "",
+        bloodType: "",
+        height: "",
+        weight: "",
+        remarks: "",
+      });
+  
+    } catch (err) {
+      console.error("Error adding patient:", err);
+  
+      // ✅ التحقق مما إذا كان الخطأ بسبب المستخدم المكرر
+      if (err.response && err.response.status === 409) {
+        setErrorMessage("A patient with this email, phone, or ID already exists.");
+      } else {
+        setErrorMessage(`Failed to add patient: ${err.response?.data || err.message}`);
+      }
+  
+      // ✅ التراجع عن الإضافة في Firebase في حال فشل الإضافة في Spring Boot
+      if (firebaseUID) {
+        try {
+          if (auth.currentUser && auth.currentUser.uid === firebaseUID) {
+            await auth.currentUser.delete(); // حذف المريض من Firebase Auth
+            console.log("Patient removed from Firebase Authentication.");
+          }
+          await deleteDoc(doc(db, "users", firebaseUID)); // حذف المريض من Firestore
+          console.log("Patient removed from Firestore.");
+        } catch (rollbackErr) {
+          console.error("Failed to rollback Firebase:", rollbackErr.message);
+        }
+      }
     }
-
-    setShowModal(false);
   };
+  
+  
+  
 
   const handleCancel = () => {
     setFormData({
@@ -94,7 +181,7 @@ const AddPatientPage = () => {
   return (
     <div className="add-patient-page">
   <DoctorSidebar />
-  <div className="content">
+  <div className="add-patient-content">
     <h2>Add Patient</h2>
     <form
       className="patient-form"
@@ -329,6 +416,12 @@ const AddPatientPage = () => {
           Confirm
         </button>
       </div>
+      {/* error */}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+      {/* added */}
+      {successMessage && <p className="success-message">{successMessage}</p>}
+
     </div>
   </div>
 )}
