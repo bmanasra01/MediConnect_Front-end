@@ -17,13 +17,21 @@ const SpecializationsPage = () => {
   // Fetch categories for the dropdown
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('/admin/categories');
-      setCategories(response.data); // Assuming the data is an array
+      const response = await axios.get("/admin/categories");
+      
+      // Since the response does not contain IDs, we create fake IDs for now
+      const categoriesWithIds = response.data.map((category, index) => ({
+        id: index + 1, // Assign an index-based ID (Temporary Fix)
+        category_name: category.category_name,
+      }));
+  
+      setCategories(categoriesWithIds);
     } catch (err) {
-      console.error('Error fetching categories:', err);
-      setError('Failed to load categories.');
+      console.error("Error fetching categories:", err);
+      setError("Failed to load categories.");
     }
   };
+  
 
   // Fetch specializations
   const fetchSpecializations = async () => {
@@ -47,22 +55,19 @@ const SpecializationsPage = () => {
   const handleAddSpecialization = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/admin/specializations', {
+      const response = await axios.post("/admin/specializations", {
         special_name: newSpecialization.special_name,
-        category_id: newSpecialization.category_id, // Send category_id instead of category_name
+        category_name: newSpecialization.category_id, // Send name instead of ID
       });
-  
-      console.log('Specialization added successfully:', response.data);
-      alert("Specialization added successfully!");
-  
-      // Reset form and refresh the list
-      setNewSpecialization({ special_name: '', category_id: '' });
-      fetchSpecializations();
+      console.log("Specialization added:", response.data);
+      setNewSpecialization({ special_name: "", category_id: "" }); // Reset
+      fetchSpecializations(); // Refresh list
     } catch (err) {
-      console.error('Error adding specialization:', err);
-      alert('Failed to add specialization.');
+      console.error("Error adding specialization:", err);
+      setError("Failed to add specialization.");
     }
   };
+  
   
 
   useEffect(() => {
@@ -140,11 +145,12 @@ const SpecializationsPage = () => {
               >
                 <option value="">Select a category</option>
                 {categories.map((category) => (
-                  <option key={category.id || category.category_name} value={category.id}>
+                  <option key={category.category_name} value={category.category_name}>
                     {category.category_name}
                   </option>
                 ))}
               </select>
+
             </div>
             <button type="submit" className="add-button">
               Add Specialization

@@ -36,12 +36,7 @@ const Sidebar = () => {
             <span>Clinic</span>
           </Link>
         </li>
-          <li className="sidebar-item">
-            <Link to="#">
-              <FaDisease className="sidebar-icon" />
-              <span>Diseases</span>
-            </Link>
-          </li>
+          
 
           <li className={`sidebar-item ${location.pathname === '/specializations' ? 'active' : ''}`}>
           <Link to="/specializations">
@@ -71,12 +66,7 @@ const Sidebar = () => {
       {/* Bottom Navigation Links */}
       <div className="sidebar-menu-bottom">
         <ul className="sidebar-menu">
-          <li className="sidebar-item">
-            <Link to="#">
-              <FaBell className="sidebar-icon" />
-              <span>Notification</span>
-            </Link>
-          </li>
+          
           <li className="sidebar-item">
             <Link to="#">
               <FaCog className="sidebar-icon" />
@@ -95,9 +85,8 @@ const Sidebar = () => {
 
       {/* User Profile */}
       <div className="sidebar-profile">
-        <FaUserShield className="profile-icon" /> {/* Replaced image with admin icon */}
         <div className="profile-info">
-          <span>James Martin</span>
+          <span>admin admin</span>
           <span className="profile-role">Admin</span>
         </div>
       </div>
