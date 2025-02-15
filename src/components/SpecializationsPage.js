@@ -47,15 +47,23 @@ const SpecializationsPage = () => {
   const handleAddSpecialization = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/admin/specializations', newSpecialization);
+      const response = await axios.post('/admin/specializations', {
+        special_name: newSpecialization.special_name,
+        category_id: newSpecialization.category_id, // Send category_id instead of category_name
+      });
+  
       console.log('Specialization added successfully:', response.data);
-      setNewSpecialization({ special_name: '', category_id: '' }); // Reset the form
-      fetchSpecializations(); // Refresh the list
+      alert("Specialization added successfully!");
+  
+      // Reset form and refresh the list
+      setNewSpecialization({ special_name: '', category_id: '' });
+      fetchSpecializations();
     } catch (err) {
       console.error('Error adding specialization:', err);
-      setError('Failed to add specialization.');
+      alert('Failed to add specialization.');
     }
   };
+  
 
   useEffect(() => {
     fetchCategories(); // Load categories for the dropdown
@@ -95,10 +103,11 @@ const SpecializationsPage = () => {
   {specializations.map((specialization, index) => (
     <tr key={specialization.id || index}>
       <td>{specialization.special_name}</td>
-      <td>{specialization.categoryName}</td>
+      <td>{specialization.category?.category_name || "N/A"}</td> 
     </tr>
   ))}
 </tbody>
+
 
         </table>
 
@@ -131,7 +140,7 @@ const SpecializationsPage = () => {
               >
                 <option value="">Select a category</option>
                 {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
+                  <option key={category.id || category.category_name} value={category.id}>
                     {category.category_name}
                   </option>
                 ))}
