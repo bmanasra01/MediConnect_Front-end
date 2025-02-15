@@ -1,0 +1,127 @@
+.doctor-clinic-page {
+    display: flex; 
+    min-height: 100vh;
+    background-color: #f5fafa;
+  }
+  
+  /* Content Section */
+  /* Content Section - Shift Right to Avoid Sidebar Overlap */
+.doctor-clinic-content {
+    flex-grow: 1;
+    margin-left: 310px; /* Ensure it aligns with sidebar width */
+    padding: 20px;
+    box-sizing: border-box;
+}
+  
+  /* Page Title */
+  .doctor-clinic-content h2 {
+    font-size: 24px;
+    color: #007b7b;
+    margin-bottom: 15px;
+  } 
+  
+  /* Table Styling */
+  .doctors-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+  
+  .doctors-table th, .doctors-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .doctors-table th {
+    background-color: #007b7b;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .doctors-table tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .doctor-clinic-content {
+      margin-left: 0;
+      padding: 10px;
+    }
+  
+    .doctors-table th, .doctors-table td {
+      padding: 8px;
+      font-size: 14px;
+    }
+  }
+
+  /* Search Container */
+.search-container {
+    position: relative;
+    width: 50%;
+    margin-bottom: 15px;
+  }
+  
+  .search-container input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #007b7b;
+    border-radius: 5px;
+  }
+  
+  /* Search Dropdown */
+  .search-dropdown {
+    position: absolute;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 10;
+  }
+  
+  .search-dropdown li {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .search-dropdown li:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Selected Doctor */
+  .selected-doctor {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #e0f7f7;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
+  /* Add Button */
+  .add-button {
+    background-color: #007b7b;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .add-button:hover {
+    background-color: #005f5f;
+  }
+  
+  
+  

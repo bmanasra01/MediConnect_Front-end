@@ -27,6 +27,9 @@ import ScheduleSettingsPage from './doctor-components/ScheduleSettingsPage';
 import BookAppointment from "./doctor-components/BookAppointment";
 import DoctorProfile from './doctor-components/DoctorProfile';
 
+import ClinicDoctorsPage from "./components/ClinicDoctorsPage";
+
+
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -40,6 +43,16 @@ function App() {
 
     <Router>
       <Routes>
+
+      <Route 
+          path="/clinic/:clinicId/doctors" 
+          element={
+            <ProtectedRoute>
+              <ClinicDoctorsPage />
+            </ProtectedRoute>
+          } 
+        />
+
         <Route path="/" element={<LoginPage />} />
 
         {/* Protected Routes */}

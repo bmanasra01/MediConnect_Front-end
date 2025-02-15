@@ -1,70 +1,93 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axiosConfig"; // Axios instance with auth header
-import "./ProceduresPage.css"; // Add styling as needed
+import "./ProceduresPage.css"; // CSS for styling
+import Sidebar from './Sidebar';
+
 
 const ProceduresPage = () => {
-  const [procedures, setProcedures] = useState([]); // State for all procedures
-  const [searchQuery, setSearchQuery] = useState(""); // State for search input
-  const [procedureName, setProcedureName] = useState(""); // State for new procedure name
-  const [procedureDescription, setProcedureDescription] = useState(""); // State for description
+  const [procedures, setProcedures] = useState([]); // Stores all procedures
+  const [filteredProcedures, setFilteredProcedures] = useState([]); // Stores filtered search results
+  const [searchQuery, setSearchQuery] = useState(""); // Search input state
+  const [procedureName, setProcedureName] = useState(""); // New procedure name input
+  const [procedureDescription, setProcedureDescription] = useState(""); // New procedure description input
   const [loading, setLoading] = useState(false); // Loading state
 
-  // Fetch All Procedures
-  const fetchProcedures = () => {
+  // 🔹 Fetch All Procedures From API
+  const fetchProcedures = async () => {
     setLoading(true);
-    axios
-      .get(`/admin/procedures/?search=${searchQuery}&page=1&size=1000`) // Large size to fetch all
-      .then((response) => {
-        setProcedures(response.data.content || []); // Update procedures list
-      })
-      .catch((error) => {
-        console.error("Error fetching procedures:", error);
-      })
-      .finally(() => setLoading(false));
+    try {
+      const response = await axios.get("/admin/procedures/");
+      setProcedures(response.data || []); // Store all procedures
+      setFilteredProcedures(response.data || []); // Initially show all
+    } catch (error) {
+      console.error("Error fetching procedures:", error);
+      setProcedures([]);
+      setFilteredProcedures([]);
+    }
+    setLoading(false);
   };
 
-  // Handle Add Procedure
-  const handleAddProcedure = (e) => {
+  // 🔹 Handle Search (Real-time Filtering)
+  const handleSearchChange = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSearchQuery(value);
+
+    if (!value) {
+      setFilteredProcedures(procedures); // Show all if search is empty
+    } else {
+      const filtered = procedures.filter((procedure) =>
+        procedure.procedure_name.toLowerCase().includes(value)
+      );
+      setFilteredProcedures(filtered);
+    }
+  };
+
+  // 🔹 Handle Adding a New Procedure
+  const handleAddProcedure = async (e) => {
     e.preventDefault();
-    const data = {
+    const newProcedure = {
       procedure_name: procedureName,
       procedure_description: procedureDescription,
     };
-
-    axios
-      .post("/admin/procedures/", data, {
+  
+    try {
+      await axios.post("/admin/procedures/", newProcedure, {
         headers: { "Content-Type": "application/json" },
-      })
-      .then((response) => {
-        setProcedures((prev) => [response.data, ...prev]); // Add new procedure to table
-        setProcedureName("");
-        setProcedureDescription("");
-      })
-      .catch((error) => {
-        console.error("Error adding procedure:", error);
       });
+  
+      setProcedureName("");
+      setProcedureDescription("");
+  
+      // 🔹 Fetch updated list from the API
+      fetchProcedures();
+    } catch (error) {
+      console.error("Error adding procedure:", error);
+    }
   };
+  
 
-  // Fetch procedures on component mount and search query change
+  // 🔹 Fetch Procedures When Component Loads
   useEffect(() => {
     fetchProcedures();
-  }, [searchQuery]); // Refetch when searchQuery changes
+  }, []);
 
   return (
     <div className="procedures-page">
+                  <Sidebar />
+
       <h1>Procedures</h1>
 
-      {/* Search Bar */}
+      <div className="procedures-page-content">{/* 🔹 Search Bar */}
       <div className="search-bar">
         <input
           type="text"
           placeholder="Search procedures..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={handleSearchChange}
         />
       </div>
 
-      {/* Add Procedure Form */}
+      {/* 🔹 Add Procedure Form */}
       <form className="add-procedure-form" onSubmit={handleAddProcedure}>
         <input
           type="text"
@@ -85,7 +108,7 @@ const ProceduresPage = () => {
         </button>
       </form>
 
-      {/* Procedures Table */}
+      {/* 🔹 Procedures Table */}
       <div className="procedures-table">
         <h2>Procedures List</h2>
         {loading ? (
@@ -99,8 +122,8 @@ const ProceduresPage = () => {
               </tr>
             </thead>
             <tbody>
-              {procedures.length > 0 ? (
-                procedures.map((procedure, index) => (
+              {filteredProcedures.length > 0 ? (
+                filteredProcedures.map((procedure, index) => (
                   <tr key={index}>
                     <td>{procedure.procedure_name}</td>
                     <td>{procedure.procedure_description}</td>
@@ -114,7 +137,10 @@ const ProceduresPage = () => {
             </tbody>
           </table>
         )}
-      </div>
+      </div> </div>
+
+
+      
     </div>
   );
 };

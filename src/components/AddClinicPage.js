@@ -43,11 +43,16 @@ const AddClinicPage = () => {
     }
   };
 
+  
   return (
+
+
     <div className="add-clinic-container">
             <Sidebar />
 
       <h1>Add Clinic</h1>
+      <div className="add-clinic-content">
+
       <form className="add-clinic-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="clinicName">Clinic Name</label>
@@ -103,6 +108,11 @@ const AddClinicPage = () => {
         {successMessage && <p className="success-message">{successMessage}</p>}
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </form>
+        
+        
+          </div>
+
+      
     </div>
   );
 };
