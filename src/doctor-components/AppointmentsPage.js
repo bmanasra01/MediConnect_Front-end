@@ -73,7 +73,7 @@ const AppointmentsPage = () => {
       <DoctorSidebar/>
 
       <div className="appointments-content">
-        <h1>Appointments</h1>
+        <h2>Appointments</h2>
         <div className="search-bar-container">
         <input
           type="text"

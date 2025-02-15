@@ -1,7 +1,6 @@
-/* ✅ تصميم الـ Sidebar الأساسي */
 .DoctorSidebar {
-  width: 250px; /* العرض الطبيعي */
-  height: 100vh;
+  width: 250px; 
+  height: 98vh;
   background-color: #e9fdfd;
   display: flex;
   flex-direction: column;
@@ -13,8 +12,6 @@
   overflow-y: auto;
   transition: all 0.3s ease-in-out;
 }
-
-
 
 .DoctorSidebar-logo img {
   width: 150px;
@@ -52,38 +49,25 @@
   color: #005f5f;
 }
 
-
-.profile-icon {
-  font-size: 50px; /* حجم الأيقونة */
-  color: #007b7b; /* لون الأيقونة */
-  margin-right: 10px;
-}
-
-
 .DoctorSidebar-profile {
   display: flex;
-  align-items: center; /* يجعل العناصر في نفس الخط */
-  gap: 10px; /* يضيف مسافة بين الأيقونة والاسم */
-  min-height: 60px; /* تأكد من أن الارتفاع كافي للأيقونة */
-  border-top: 1px solid rgba(0, 0, 0, 0.1); /* خط فاصل */
+  align-items: center; 
+  gap: 10px; 
+  min-height: 60px; 
+  border-top: 1px solid rgba(0, 0, 0, 0.1); 
   margin-top: 0px;
   padding-top: 15px;
 }
 
-
-/* ✅ تنسيق الأيقونة */
 .profile-icon {
-  font-size: 45px; /* تكبير الأيقونة */
-  color: #007b7b; /* لون الأيقونة */
-  margin-right: 10px; /* يضيف مسافة بين الأيقونة والاسم */
-  flex-shrink: 0; /* يمنع الأيقونة من أن تصبح أصغر */
+  font-size: 30px; 
+  color: #007b7b; 
+  flex-shrink: 0; 
 }
 
-
-/* ✅ ضبط تنسيق الاسم والمسمى الوظيفي */
 .profile-info {
   display: flex;
-  flex-direction: column; /* يبقى الاسم والمسمى الوظيفي عمودي */
+  flex-direction: column; 
 }
 
 .profile-info span {
@@ -96,36 +80,6 @@
   color: #a9a9a9;
 }
 
-
-
-
-/* ✅ **Responsive Sidebar for small screens** */
-@media (max-width: 768px) {
-  .DoctorSidebar {
-    width: 70px; /* Sidebar صغير على الموبايل */
-    padding: 10px;
-  }
-
-  .DoctorSidebar-logo img {
-    width: 50px;
-  }
-
-  .DoctorSidebar-item {
-    justify-content: center;
-    padding: 10px;
-  }
-
-  .DoctorSidebar-item span {
-    display: none; /* يخفي النصوص */
-  }
-
-  .DoctorSidebar-icon {
-    margin: 0;
-    font-size: 1.5rem;
-  }
-}
-
-/* ✅ زر التحكم بإخفاء وإظهار القائمة */
 .toggle-button {
   display: none;
   position: absolute;
@@ -139,13 +93,8 @@
   cursor: pointer;
 }
 
-@media (max-width: 768px) {
-  .toggle-button {
-    display: block;
-  }
-}
-
 .DoctorSidebar-item a {
+  gap: 5px;
   text-decoration: none;
   display: flex; 
   align-items: center; 
@@ -153,9 +102,39 @@
   width: 100%; 
 }
 
-/* ✅ إضافة خط فاصل بين القائمتين */
 .DoctorSidebar-bottom-menu {
-  border-top: 1px solid rgba(0, 0, 0, 0.1); /* خط خفيف */
-  margin-top: 10px; /* يضيف مسافة بين القوائم */
-  padding-top: 10px; /* يضيف مسافة بعد الخط */
+  border-top: 1px solid rgba(0, 0, 0, 0.1); 
+  margin-top: 10px; 
+  padding-top: 10px; 
+}
+
+@media (max-width: 768px) {
+  .DoctorSidebar {
+    width: 70px; 
+    padding: 10px;
+  }
+
+  .DoctorSidebar-logo img {
+    width: 50px;
+  }
+
+  .DoctorSidebar-item {
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .DoctorSidebar-item span {
+    display: none; 
+  }
+
+  .DoctorSidebar-icon {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .toggle-button {
+    display: block;
+  }
 }

@@ -13,8 +13,6 @@ import AddClinicPage from './components/AddClinicPage';
 import ProceduresPage from './components/ProceduresPage';
 import SpecializationsPage from './components/SpecializationsPage'; 
 
-
-
 import DoctorDashboard from './doctor-components/DoctorDashboard';
 import PatientsPage from './doctor-components/PatientsPage';
 import CategoriesPage from './components/CategoriesPage'; 
@@ -24,23 +22,14 @@ import CreateVisit from './doctor-components/CreateVisit';
 import AppointmentsPage from './doctor-components/AppointmentsPage'; 
 import DoctorVisitsPage from './doctor-components/DoctorVisitsPage';
 import VisitDetailsPage from "./doctor-components/VisitDetailsPage";
-
-
 import ChatsPage from './doctor-components/ChatsPage';
-
-
-
-
 import ScheduleSettingsPage from './doctor-components/ScheduleSettingsPage';
 import BookAppointment from "./doctor-components/BookAppointment";
+import DoctorProfile from './doctor-components/DoctorProfile';
 
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-
-
-
 
 function App() {
   return (
@@ -88,94 +77,95 @@ function App() {
           <ProtectedRoute>
             <AddClinicPage />
           </ProtectedRoute>
-          } />
+        } />
 
-          <Route path="/patients" element={
+        <Route path="/patients" element={
            <ProtectedRoute>
              <PatientsPage />
            </ProtectedRoute>
-          } />
+        } />
 
-          <Route path="/specializations" element={
+        <Route path="/specializations" element={
             <ProtectedRoute>
               <SpecializationsPage />
             </ProtectedRoute>
-          } />
+        } />
 
-          <Route path="/categories"
+        <Route path="/categories"
           element={
             <ProtectedRoute>
               <CategoriesPage />
             </ProtectedRoute>
-          }/>
+        }/>
 
-          <Route path="/add-patient" element={
+        <Route path="/add-patient" element={
             <ProtectedRoute>
               <AddPatientPage />
             </ProtectedRoute>
-          } />
+        } />
 
-          <Route path="/patient-profile/:patientId" element={
+        <Route path="/patient-profile/:patientId" element={
             <ProtectedRoute>
               <PatientProfile />
             </ProtectedRoute>
-          }/>
+        }/>
 
-          <Route path="/create-visit/:patientId" element={
+        <Route path="/create-visit/:patientId" element={
               <ProtectedRoute>
                 <CreateVisit />
               </ProtectedRoute>
-            }/>
+        }/>
 
-          <Route path="/appointments" element={
+        <Route path="/appointments" element={
               <ProtectedRoute>
                  <AppointmentsPage />
               </ProtectedRoute>
-          } />
+        } />
 
-            <Route path="/procedures" element={
+        <Route path="/procedures" element={
               <ProtectedRoute>
                  <ProceduresPage  />
               </ProtectedRoute>
-          } />
+        } />
 
-          <Route path="/doctor-visits" element={
+
+        <Route path="/doctor-visits" element={
               <ProtectedRoute>
                 <DoctorVisitsPage />
               </ProtectedRoute>
-            }/>
+        }/>
 
 
-            <Route path="/bappointments" element={
+        <Route path="/bappointments" element={
                 <ProtectedRoute>
                   <BookAppointment />
                 </ProtectedRoute>
-              }
-            />
+        }/>
 
-<Route path="/chat" element={
-    <ProtectedRoute>
-        <ChatsPage />
-    </ProtectedRoute>
-} />
+        <Route path="/chat" element={
+            <ProtectedRoute>
+                <ChatsPage />
+            </ProtectedRoute>
+        } />
 
-          
+        <Route path="/doctor-profile" element={
+          <ProtectedRoute>
+            <DoctorProfile />
+          </ProtectedRoute>
+        } />
 
+        
+        <Route path="/patient-profile/:patientId" element={<PatientProfile />} />
 
+        <Route path="/" element={<DoctorVisitsPage />} />
 
+        <Route path="/visit/:visitID" element={<VisitDetailsPage />} />
 
-
-
-          <Route path="/patient-profile/:patientId" element={<PatientProfile />} />
-
-          <Route path="/" element={<DoctorVisitsPage />} />
-          <Route path="/visit/:visitID" element={<VisitDetailsPage />} />
-
-          <Route path="/settings/schedule" element={
+        <Route path="/settings/schedule" element={
             <ProtectedRoute>
               <ScheduleSettingsPage />
             </ProtectedRoute>
-          } />
+        } />
 
 
 

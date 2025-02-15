@@ -32,6 +32,9 @@ const CreateVisit = () => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [medicationOptions, setMedicationOptions] = useState([]);
 
+  const [showSaveModal, setShowSaveModal] = useState(false);
+
+
   const [visitData, setVisitData] = useState({
     visitID,
     patientId,
@@ -441,7 +444,7 @@ const CreateVisit = () => {
       
 
       // Success message if everything is saved
-      alert("Visit and all related data saved successfully!");
+      // alert("Visit and all related data saved successfully!");
       navigate("/doctor-dashboard");
   
     } catch (error) {
@@ -586,9 +589,9 @@ const CreateVisit = () => {
                           Add Lab Test
                         </button>
                       )}
-                    </div>
+                </div>
 
-                    <div className="procedure-section">
+                <div className="procedure-section">
                       <h3>Procedures</h3>
 
                       {showProcedureSection && (
@@ -638,9 +641,9 @@ const CreateVisit = () => {
                           Add Procedure
                         </button>
                       )}
-                    </div>
+                </div>
 
-                    <div className="prescription-section">
+                <div className="prescription-section">
                         <h3>Prescriptions</h3>
 
                         {showPrescriptionSection && (
@@ -650,86 +653,105 @@ const CreateVisit = () => {
                                 <div className="prescription-row">
                                  {/* Visible Input: Shows Medication Name */}
                                  <div className="prescription-row">
-  {/* Visible Input: Shows Medication Name */}
-  <input
-    type="text"
-    name="medicationName"
-    placeholder="Search for medication..."
-    value={prescription.medicationName || ""}
-    onFocus={() => fetchMedications("")}
-    onChange={(e) => {
-      handlePrescriptionChange(index, e);
-      fetchMedications(e.target.value);
-    }}
-    onInput={(e) => handleMedicationSelectionFromList(index, e.target.value)} // ✅ New event
-    list={`medication-options-${index}`}
-    className="prescription-input"
-  />
+                                    {/* Visible Input: Shows Medication Name */}
+                                    <input
+                                      type="text"
+                                      name="medicationName"
+                                      placeholder="Search for medication..."
+                                      value={prescription.medicationName || ""}
+                                      onFocus={() => fetchMedications("")}
+                                      onChange={(e) => {
+                                        handlePrescriptionChange(index, e);
+                                        fetchMedications(e.target.value);
+                                      }}
+                                      onInput={(e) => handleMedicationSelectionFromList(index, e.target.value)} // ✅ New event
+                                      list={`medication-options-${index}`}
+                                      className="prescription-input"
+                                    />
 
-  {/* Hidden Input: Stores Medication ID */}
-  <input type="hidden" name="medicationId" value={prescription.medicationId || ""} />
+                                    {/* Hidden Input: Stores Medication ID */}
+                                    <input type="hidden" name="medicationId" value={prescription.medicationId || ""} />
 
-  {/* Datalist: Shows ID and Name */}
-  <datalist id={`medication-options-${index}`}>
-    {medicationOptions.map((option) => (
-      <option key={option.medicationID} value={`${option.medicationID} - ${option.scientificName}`} />
-    ))}
-  </datalist>
-</div>
+                                    {/* Datalist: Shows ID and Name */}
+                                    <datalist id={`medication-options-${index}`}>
+                                      {medicationOptions.map((option) => (
+                                        <option key={option.medicationID} value={`${option.medicationID} - ${option.scientificName}`} />
+                                      ))}
+                                    </datalist>
+                                  </div>
+
+                                        <select
+                                          name="doseType"
+                                          value={prescription.doseType}
+                                          onChange={(e) => handlePrescriptionChange(index, e)}
+                                        >
+                                          <option value="">Select Dose Type</option>
+                                          <option value="pills">Pills</option>
+                                          <option value="liquid">Liquid</option>
+                                          <option value="injection">Injection</option>
+                                        </select>
+                                        <input type="text" name="doseAmount" placeholder="Dose Amount" value={prescription.doseAmount} onChange={(e) => handlePrescriptionChange(index, e)} />
+                                      </div>
+
+                                      <div className="dosage-checkboxes">
+                                        <label>
+                                          <input type="checkbox" name="morningDose" checked={prescription.morningDose} onChange={(e) => handlePrescriptionChange(index, { target: { name: "morningDose", value: e.target.checked } })} /> Morning
+                                        </label>
+                                        <label>
+                                          <input type="checkbox" name="noonDose" checked={prescription.noonDose} onChange={(e) => handlePrescriptionChange(index, { target: { name: "noonDose", value: e.target.checked } })} /> Noon
+                                        </label>
+                                        <label>
+                                          <input type="checkbox" name="eveningDose" checked={prescription.eveningDose} onChange={(e) => handlePrescriptionChange(index, { target: { name: "eveningDose", value: e.target.checked } })} /> Evening
+                                        </label>
+                                      </div>
+
+                                      {/* Day Interval & Total Days in One Row */}
+                                      <div className="prescription-duration">
+                                        <input type="number" name="dayInterval" placeholder="Day Interval" value={prescription.dayInterval} onChange={(e) => handlePrescriptionChange(index, e)} />
+                                        <input type="number" name="totalDays" placeholder="Total Days" value={prescription.totalDays} onChange={(e) => handlePrescriptionChange(index, e)} />
+                                      </div>
+
+                                      {/* Start Date in One Row with Label */}
+                                      <div className="start-date-row">
+                                        <label className="start-date-label">Start Date:</label>
+                                        <input type="date" name="startDate" value={prescription.startDate} onChange={(e) => handlePrescriptionChange(index, e)} />
+                                      </div>
+
+                                      <textarea name="notes" placeholder="Notes" value={prescription.notes} onChange={(e) => handlePrescriptionChange(index, e)} />
+
+                                      <button className="remove-button" onClick={() => removePrescription(index)}>Remove</button>
+                                    </div>
+                                  ))}
+                                  <button className="add-prescription-button" onClick={addPrescription}>Add Prescription</button>
+                                </>
+                              )}
+
+                              {!showPrescriptionSection && <button className="add-prescription-button" onClick={addPrescription}>Add Prescription</button>}
+                  </div>
+            {/* <button onClick={handleSaveVisit} className="save-button">Save Visit</button> */}
+            <button onClick={() => setShowSaveModal(true)} className="save-button">Save Visit</button>
+
+           
+
+            {showSaveModal && (
+              <div className="modal-overlay">
+                <div className="modal">
+                  <h2>Confirm Visit Save</h2>
+                  <p>Are you sure you want to save this visit?</p>
+                  <div className="modal-actions">
+                    <button className="confirm-button" onClick={(e) => { setShowSaveModal(false); handleSaveVisit(e); }}>
+                      Yes, Save
+                    </button>
+                    <button className="cancel-button" onClick={() => setShowSaveModal(false)}>
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
 
 
-            <select
-              name="doseType"
-              value={prescription.doseType}
-              onChange={(e) => handlePrescriptionChange(index, e)}
-            >
-              <option value="">Select Dose Type</option>
-              <option value="pills">Pills</option>
-              <option value="liquid">Liquid</option>
-              <option value="injection">Injection</option>
-            </select>
-            <input type="text" name="doseAmount" placeholder="Dose Amount" value={prescription.doseAmount} onChange={(e) => handlePrescriptionChange(index, e)} />
-          </div>
-
-          <div className="dosage-checkboxes">
-            <label>
-              <input type="checkbox" name="morningDose" checked={prescription.morningDose} onChange={(e) => handlePrescriptionChange(index, { target: { name: "morningDose", value: e.target.checked } })} /> Morning
-            </label>
-            <label>
-              <input type="checkbox" name="noonDose" checked={prescription.noonDose} onChange={(e) => handlePrescriptionChange(index, { target: { name: "noonDose", value: e.target.checked } })} /> Noon
-            </label>
-            <label>
-              <input type="checkbox" name="eveningDose" checked={prescription.eveningDose} onChange={(e) => handlePrescriptionChange(index, { target: { name: "eveningDose", value: e.target.checked } })} /> Evening
-            </label>
-          </div>
-
-          {/* Day Interval & Total Days in One Row */}
-          <div className="prescription-duration">
-            <input type="number" name="dayInterval" placeholder="Day Interval" value={prescription.dayInterval} onChange={(e) => handlePrescriptionChange(index, e)} />
-            <input type="number" name="totalDays" placeholder="Total Days" value={prescription.totalDays} onChange={(e) => handlePrescriptionChange(index, e)} />
-          </div>
-
-          {/* Start Date in One Row with Label */}
-          <div className="start-date-row">
-            <label className="start-date-label">Start Date:</label>
-            <input type="date" name="startDate" value={prescription.startDate} onChange={(e) => handlePrescriptionChange(index, e)} />
-          </div>
-
-          <textarea name="notes" placeholder="Notes" value={prescription.notes} onChange={(e) => handlePrescriptionChange(index, e)} />
-
-          <button className="remove-button" onClick={() => removePrescription(index)}>Remove</button>
-        </div>
-      ))}
-      <button className="add-prescription-button" onClick={addPrescription}>Add Prescription</button>
-    </>
-  )}
-
-  {!showPrescriptionSection && <button className="add-prescription-button" onClick={addPrescription}>Add Prescription</button>}
-</div>
-
-
-            <button onClick={handleSaveVisit} className="save-button">Save Visit</button>
           </>
         )}
       </div>
